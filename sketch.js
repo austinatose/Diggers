@@ -1,7 +1,7 @@
 let ground, tilesGroup;
 
 function setup() {
-  createCanvas(window.innerWidth, window.innerHeight);
+  createCanvas(1400, 800);
 
   ourMap = new Map();
   ourMap.regenerateMap();

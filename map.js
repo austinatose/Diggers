@@ -21,7 +21,7 @@ class Map {
         } else {
           fill(0);
         }
-        rect(i * ground.w, j * ground.h, ground.w, ground.h);
+        rect(i * 200, 400 + j * 200, i * 200 + 200, 400 + j * 200 + 200);
       }
     }
   }

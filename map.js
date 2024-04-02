@@ -6,9 +6,9 @@ class Map {
   regenerateMap() {
     this.mapArr = [];
     for (let i = 0; i < 15; i++) {
-      mapArr.push([]);
+      this.mapArr.push([]);
       for (let j = 0; j < 7; j++) {
-        mapArr[i].push("0");
+        this.mapArr[i].push("0");
       }
     }
   }

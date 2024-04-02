@@ -9,6 +9,8 @@ function setup() {
   ground.w = window.innerWidth/15;
   ground.h = ground.w;
   ground.tile = "=";
+
+  new Player(300, 300);
 }
 
 function draw() {

@@ -1,5 +1,3 @@
-import { timeStamp } from "console";
-
 class EntityManager {
   constructor() {
       this.entities = new Map();

@@ -6,9 +6,9 @@ class Player {
     this.sprite.position.y = y;
   }
 
-  takeInput() {
-    if 
-  }
+  // takeInput() {
+  //   if 
+  // }
 
   draw() {
     fill(255);

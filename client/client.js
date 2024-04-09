@@ -1,5 +1,5 @@
 let currentRoomCode = null;
-let messages = []; // local messages array is for display only
+let players = [];
 let name = "Anonymous";
 
 let ourMap = new Map();
@@ -33,11 +33,11 @@ let ground, tilesGroup;
 
 function setup() {
   createCanvas(1400, 800);
-  
-  new Player(300, 300);
+  clientplayer = new Player(300, 300);
 }
 
 function draw() {
+  translate(0, clientplayer.sprite.position.y / 2);
   background(200);
   ourMap.render();
 }

@@ -10,8 +10,4 @@ class Player {
   //   if 
   // }
 
-  draw() {
-    fill(255);
-    ellipse(this.pos.x, this.pos.y, this.diameter);
-  }
 }

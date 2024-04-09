@@ -30,10 +30,17 @@ socket.on("setRoomCode", (roomCode) => {
 });
 
 let ground, tilesGroup;
+let p1, p2, p3;
+
+function preload(){
+    p1 = loadImage('player1.png')    
+}
 
 function setup() {
-  createCanvas(1400, 800);
-  clientplayer = new Player(300, 300);
+    createCanvas(1400, 800, WEBGL);
+
+    //texture(p1);
+    new Player(300, 300);
 }
 
 function draw() {

@@ -43,7 +43,7 @@ function setup() {
     //texture(p1);
     clientplayer = new PlayerCharacter(300, 300);
     ourMap.init();
-    world.gravity.y = 4;
+    world.gravity.y = 10;
 }
 
 function draw() {

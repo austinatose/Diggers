@@ -19,14 +19,11 @@ class PlayerCharacter {
 
   takeInput() {
     const SPEED = 10;
-    if (kb.pressing("w")) {
+    if (kb.pressing(" ")) {
         this.sprite.pos.y -= SPEED;
     }
     if (kb.pressing("a")) {
       this.sprite.pos.x -= SPEED;
-    }
-    if (kb.pressing("s")) {
-      this.sprite.pos.y += SPEED;
     }
     if (kb.pressing("d")) {
       this.sprite.pos.x += SPEED;

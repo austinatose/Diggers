@@ -14,6 +14,8 @@ function Client(socket) {
   this.socket = socket;
   this.room = null;
   this.name = "Anonymous";
+  this.position = { x: 0, y: 0 };
+  this.heldItem = null;
 }
 
 class Room {
@@ -115,7 +117,16 @@ io.on("connection", socket => {
     // });
     // no need for this as there are no changes on client side, just broadcasting message will do
   });
-})
+});
+
+function tick() {
+  for (let room of rooms) {
+    for (let client of room.clients) {
+      client.socket.emit("playerPositionUpdate", room.clients.map((c) => ({ id: c.id, position: c.position })));
+      client.socket.emit("mapUpdate", room.map);
+    }
+  }
+}
 
 function generateRandomRoomCode() {
   return (+new Date()).toString(36).slice(-5);

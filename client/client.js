@@ -1,8 +1,7 @@
 let currentRoomCode = null;
-let players = [];
+let playersArr = [];
+let entitiesArr = [];
 let name = "Anonymous";
-
-let ourMap = new Map();
 
 const socket = io.connect("ws://localhost:8001");
 
@@ -31,28 +30,45 @@ socket.on("setRoomCode", (roomCode) => {
 
 let ground, tilesGroup;
 let p1, p2, p3;
+let ourMap = new Map();
 
 function preload(){
     p1 = loadImage('player1.png')    
 }
 
 function setup() {
-    createCanvas(1400, 800, WEBGL);
+    createCanvas(1400, 800);
+    // createCanvas(1400, 800, WEBGL); // idk why it breaks when WEBGL is on
 
     //texture(p1);
-    new Player(300, 300);
+    clientplayer = new PlayerCharacter(300, 300);
+    ourMap.init();
+    world.gravity.y = 4;
 }
 
 function draw() {
-  translate(0, clientplayer.sprite.position.y / 2);
+  // translate(0, clientplayer.sprite.pos.y - height / 2);
   background(200);
-  ourMap.render();
+  // clientplayer.draw();
+  clientplayer.takeInput();
 }
 
 
 socket.on("newMessage", (message) => { // new announcement to players
   
 });
+
+socket.on("playerDataUpdate", (id, playerData) => {
+  for (let data of playerData) {
+      if (data.id === id)
+          continue;
+      if (!em.exists(data.id)) {
+          em.registerNewPlayer(data);
+      } else {
+          em.updatePlayerData(data);
+      }
+  }
+})
 
 socket.on("mapUpdate", (receivedMap) => {
   console.log("mapUpdate", receivedMap);

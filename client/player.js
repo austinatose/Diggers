@@ -7,12 +7,8 @@ class PlayerCharacter {
     this.sprite.mass = 0;
     this.universalX = x;
     this.universalY = y;
-    // this.sprite.img = '../assets/player2.png'
+    // this.sprite.img = 'assets/player2.png'
   }
-
-  // takeInput() {
-  //   if 
-  // }
 
   draw() {
     //fill(255);
@@ -23,7 +19,7 @@ class PlayerCharacter {
   takeInput() {
     const SPEED = 10;
     if (kb.pressing(" ")) {
-        this.sprite.pos.y -= 20;
+      this.sprite.pos.y -= 20;
     }
     if (kb.pressing("a")) {
       this.sprite.pos.x -= SPEED;

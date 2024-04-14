@@ -32,9 +32,12 @@ let ground, tilesGroup;
 let p1, p2, p3;
 let ourMap = new Map();
 
-function preload(){
-    p1 = loadImage('player1.png')    
-}
+// function preload(){
+//   // p1 = loadImage('./assets/player1.png')
+//   p2 = loadImage('assets/player2.png')    
+//   p3 = loadImage('assets/player3.png')    
+//   ROCK = loadImage('assets/ROCK.png')    
+// }
 
 function setup() {
   new Canvas(1400, 800);

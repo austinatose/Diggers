@@ -18,9 +18,11 @@ class Map {
       for (let j = 0; j < 7; j++) {
         if (this.mapArr[i][j] === "0") {
           let brick = new Sprite(i * 200 + 100, 500 + j * 200);
+          brick.color = "black";
           brick.height = 200;
           brick.width = 200;
           brick.collider = 'k';
+          brick.img = loadImage('/assets/ROCK.png');
           this.bricksArr[i].push(brick);
         } else {
           this.bricksArr[i].push(null);

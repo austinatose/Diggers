@@ -5,6 +5,9 @@ class PlayerCharacter {
     this.sprite.position.x = x;
     this.sprite.position.y = y;
     this.sprite.mass = 0;
+    this.universalX = x;
+    this.universalY = y;
+    // this.sprite.img = '../assets/player2.png'
   }
 
   // takeInput() {

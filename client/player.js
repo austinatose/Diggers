@@ -20,7 +20,7 @@ class PlayerCharacter {
   takeInput() {
     const SPEED = 10;
     if (kb.pressing(" ")) {
-        this.sprite.pos.y -= SPEED;
+        this.sprite.pos.y -= 20;
     }
     if (kb.pressing("a")) {
       this.sprite.pos.x -= SPEED;

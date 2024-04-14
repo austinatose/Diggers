@@ -37,20 +37,25 @@ function preload(){
 }
 
 function setup() {
-    createCanvas(1400, 800);
-    // createCanvas(1400, 800, WEBGL); // idk why it breaks when WEBGL is on
+  new Canvas(1400, 800);
+  world.gravity.y = 15;
+  // createCanvas(1400, 800, WEBGL); // idk why it breaks when WEBGL is on
 
-    //texture(p1);
-    clientplayer = new PlayerCharacter(300, 300);
-    ourMap.init();
-    world.gravity.y = 10;
+  //texture(p1);
+  clientplayer = new PlayerCharacter(300, 300);
+  ourMap.init();
 }
 
 function draw() {
-  // translate(0, clientplayer.sprite.pos.y - height / 2);
+
   background(200);
-  // clientplayer.draw();
   clientplayer.takeInput();
+  if (clientplayer.sprite.y > height / 2) {
+    translate(0, height / 2 - clientplayer.sprite.y);
+  }
+  // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
+  clientplayer.sprite.draw();
+  ourMap.draw();
 }
 
 

@@ -23,9 +23,21 @@ class Map {
           brick.width = 200;
           brick.collider = 'k';
           brick.img = loadImage('/assets/ROCK.png');
-          this.bricksArr[i].push(brick);
-        } else {
-          this.bricksArr[i].push(null);
+          this.bricksArr[i].push([brick]);
+        } else if (this.mapArr[i][j] === "1") {
+          let brickcomponent1 = new Sprite(i * 200 + 25, 500 + j * 200);
+          brickcomponent1.color = "black";
+          brickcomponent1.height = 200;
+          brickcomponent1.width = 50;
+          brickcomponent1.collider = 'k';
+          // brickcomponent1.img = loadImage('/assets/ROCK.png');
+          let brickcomponent2 = new Sprite(i * 200 + 175, 500 + j * 200);
+          brickcomponent2.color = "black";
+          brickcomponent2.height = 200;
+          brickcomponent2.width = 50;
+          brickcomponent2.collider = 'k';
+          // brickcomponent2.img = loadImage('/assets/ROCK.png');
+          this.bricksArr[i].push([brickcomponent1, brickcomponent2]);
         }
       }
     }
@@ -36,7 +48,9 @@ class Map {
     for (let i = 0; i < 15; i++) {
       for (let j = 0; j < 7; j++) {
         if (this.bricksArr[i][j]) {
-          this.bricksArr[i][j].draw();
+          for (let brickcomponent of this.bricksArr[i][j]) {
+            brickcomponent.draw();
+          }
         }
       }
     }

@@ -46,10 +46,10 @@ class Room {
       }
     }
     this.map[2][0] = "1"; // for testing
-    this.map[2][1] = "1"; // for testing
+    this.map[2][1] = "2"; // for testing
     this.map[2][2] = "1"; // for testing
     this.map[2][3] = "1"; // for testing
-    this.map[3][1] = "1"; // for testing
+    this.map[3][1] = "2"; // for testing
   }
 }
 

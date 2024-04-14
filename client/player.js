@@ -6,7 +6,8 @@ class PlayerCharacter {
     this.sprite.position.x = x;
     this.sprite.position.y = y;
     this.sprite.mass = 0;
-    // this.sprite.img = 'assets/player2.png'
+    this.avatar_id = Math.floor(Math.random()*2)+1
+    this.sprite.img = `assets/player${this.avatar_id}.png`
   }
 
   takeInput() {
@@ -31,6 +32,7 @@ class OtherCharacter {
     this.sprite.position.x = x;
     this.sprite.position.y = y;
     this.sprite.mass = 0;
-    // this.sprite.img = 'assets/player2.png'
+    this.avatar_id = Math.floor(Math.random()*3)+1
+    this.sprite.img = `assets/player3.png`
   }
 }

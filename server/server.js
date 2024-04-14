@@ -16,6 +16,7 @@ function Client(socket) {
   this.name = "Anonymous";
   this.position = { x: 0, y: 0 };
   this.heldItem = null;
+  this.id = clients.size;
 }
 
 class Room {
@@ -60,6 +61,7 @@ io.on("connection", socket => {
   let client = new Client(socket);
   clients.add(client);
   socket.emit("connected", client.id);
+  console.log("Connect to Client id", client.id);
 
   socket.on("setName", (name) => {
     console.log("setName received", name);
@@ -122,13 +124,22 @@ io.on("connection", socket => {
     // });
     // no need for this as there are no changes on client side, just broadcasting message will do
   });
+
+  socket.on("sendPlayerDataUpdate", (data) => {
+    if (!client.room) return;
+    client.position = data[0];
+    // client.heldItem = data[1];
+    for (let c of client.room.clients) {
+      c.socket.emit("playerDataUpdate", client.id, [client.position]);
+    }
+  });
 });
 
 function tick() {
   for (let room of rooms) {
     for (let client of room.clients) {
-      client.socket.emit("playerPositionUpdate", room.clients.map((c) => ({ id: c.id, position: c.position })));
-      client.socket.emit("mapUpdate", room.map);
+      client.socket.emit("playerDataUpdate", room.clients.map((c) => ({ id: c.id, position: c.position })));
+      // client.socket.emit("mapUpdate", room.map);
     }
   }
 }

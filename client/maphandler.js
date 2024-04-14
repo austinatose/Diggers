@@ -1,10 +1,11 @@
-class Map {
+class MapDS {
   constructor() {
     this.mapArr = [];
     this.bricksArr = [];
   }
 
   init() {
+    console.log("init started");
     // for (let i = 0; i < 15; i++) {
     //   this.mapArr.push([]);
     //   for (let j = 0; j < 7; j++) {
@@ -12,7 +13,7 @@ class Map {
     //   }
     // }
     // this.mapArr[14][3] = "1";
-    print(this.mapArr);
+    console.log(this.mapArr);
     for (let i = 0; i < 15; i++) {
       this.bricksArr.push([]);
       for (let j = 0; j < 7; j++) {
@@ -41,7 +42,7 @@ class Map {
         }
       }
     }
-    print(this.bricksArr);
+    console.log(this.bricksArr);
   }
 
   draw() {

@@ -1,7 +1,7 @@
 let currentRoomCode = null;
-let playersArr = [];
-let entitiesArr = [];
+let playerEntities = new Map();
 let name = "Anonymous";
+let myID = null;
 
 const socket = io.connect("ws://localhost:8001");
 
@@ -28,9 +28,14 @@ socket.on("setRoomCode", (roomCode) => {
   console.log("Room Code:", roomCode);
 });
 
+socket.on("connected", (id) => {
+  myID = id;
+  console.log("Connected with ID", id);
+});
+
 let ground, tilesGroup;
 let p1, p2, p3;
-let ourMap = new Map();
+let ourMap = new MapDS();
 
 // function preload(){
 //   // p1 = loadImage('./assets/player1.png')
@@ -39,26 +44,53 @@ let ourMap = new Map();
 //   ROCK = loadImage('assets/ROCK.png')    
 // }
 
+socket.on("mapUpdate", (receivedMap) => {
+  console.log("mapUpdate", receivedMap);
+  ourMap.mapArr = receivedMap;
+});
+
 function setup() {
   new Canvas(1400, 800);
+
+  console.log("creating map");
+  ourMap.init();
+
   world.gravity.y = 15;
   // createCanvas(1400, 800, WEBGL); // idk why it breaks when WEBGL is on
 
   //texture(p1);
   clientplayer = new PlayerCharacter(300, 300);
-  ourMap.init();
 }
 
 function draw() {
-
   background(200);
+
+  // announcements and text
+  fill(0);
+  textSize(20);
+  text("Room Code: " + currentRoomCode, 20, 20);
+
+  // player updates
   clientplayer.takeInput();
   if (clientplayer.sprite.y > height / 2) {
     translate(0, height / 2 - clientplayer.sprite.y);
   }
+
+  // draw others
+  for (let [id, player] of playerEntities) {
+    // console.log(playerEntities);
+    if (id !== myID) {
+      player.sprite.draw();
+    }
+  }
+
   // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
   clientplayer.sprite.draw();
   ourMap.draw();
+
+  // update server
+  socket.emit("sendPlayerDataUpdate", [createVector(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y)]);
+  // console.log(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
 }
 
 
@@ -67,18 +99,13 @@ socket.on("newMessage", (message) => { // new announcement to players
 });
 
 socket.on("playerDataUpdate", (id, playerData) => {
-  for (let data of playerData) {
-      if (data.id === id)
-          continue;
-      if (!em.exists(data.id)) {
-          em.registerNewPlayer(data);
-      } else {
-          em.updatePlayerData(data);
-      }
+  // console.log("playerDataUpdate", id, playerData);
+  // console.log(playerData[0])
+  if (playerEntities.has(id) && id !== myID){
+    playerEntities.get(id).sprite.pos.x = playerData[0].x;
+    playerEntities.get(id).sprite.pos.y = playerData[0].y;
+  } else if (id !== myID) {
+    let newPlayer = new OtherCharacter(playerData[0].x, playerData[0].y);
+    playerEntities.set(id, newPlayer);
   }
 })
-
-socket.on("mapUpdate", (receivedMap) => {
-  console.log("mapUpdate", receivedMap);
-  ourMap.mapArr = receivedMap;
-});

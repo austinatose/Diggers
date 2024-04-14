@@ -135,14 +135,14 @@ io.on("connection", socket => {
   });
 });
 
-function tick() {
-  for (let room of rooms) {
-    for (let client of room.clients) {
-      client.socket.emit("playerDataUpdate", room.clients.map((c) => ({ id: c.id, position: c.position })));
-      // client.socket.emit("mapUpdate", room.map);
-    }
-  }
-}
+// function tick() {
+//   for (let room of rooms) {
+//     for (let client of room.clients) {
+//       client.socket.emit("playerDataUpdate", room.clients.map((c) => ({ id: c.id, position: c.position })));
+//       // client.socket.emit("mapUpdate", room.map);
+//     }
+//   }
+// }
 
 function generateRandomRoomCode() {
   return (+new Date()).toString(36).slice(-5);

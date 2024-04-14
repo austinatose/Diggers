@@ -3,6 +3,7 @@ let playerEntities = new Map();
 let name = "Anonymous";
 let myID = null;
 
+// const socket = io.connect("ws://192.168.1.81:8001");
 const socket = io.connect("ws://localhost:8001");
 
 window.onload = () => {
@@ -47,13 +48,13 @@ let ourMap = new MapDS();
 socket.on("mapUpdate", (receivedMap) => {
   console.log("mapUpdate", receivedMap);
   ourMap.mapArr = receivedMap;
+  ourMap.init();
 });
 
 function setup() {
   new Canvas(1400, 800);
 
   console.log("creating map");
-  ourMap.init();
 
   world.gravity.y = 15;
   // createCanvas(1400, 800, WEBGL); // idk why it breaks when WEBGL is on

@@ -37,6 +37,7 @@ socket.on("connected", (id) => {
 let ground, tilesGroup;
 let p1, p2, p3;
 let ourMap = new MapDS();
+let ourCards = new CardDS();
 
 // function preload(){
 //   // p1 = loadImage('./assets/player1.png')
@@ -51,6 +52,12 @@ socket.on("mapUpdate", (receivedMap) => {
   ourMap.init();
 });
 
+socket.on("cardUpdate", (receivedCard) => {
+    console.log("cardUpdate", receivedCard);
+    ourCards.cardData = receivedCard;
+    ourCards.init();
+})
+
 function setup() {
   new Canvas(1400, 800);
 
@@ -64,6 +71,7 @@ function setup() {
 }
 
 function draw() {
+    console.log("iutviygv")
   background(200);
 
   // announcements and text
@@ -88,9 +96,17 @@ function draw() {
   // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
   clientplayer.sprite.draw();
   ourMap.draw();
+  ourCards.draw();
 
   // update server
   socket.emit("sendPlayerDataUpdate", [createVector(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y)]);
+  console.log("Spawning new Card")
+  if(clientplayer.spawnCard){
+    console.log("Spawning new Card")
+    socket.emit("sendCardUpdate", [1, 50, 50])
+    clientplayer.spawnCard = false;
+  }
+  
   // console.log(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
 }
 

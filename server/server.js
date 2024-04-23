@@ -24,6 +24,7 @@ class Room {
     this.clients = [];
     this.id = id;
     this.map = [];
+    this.cards = []
   }
 
   addClient(client) {
@@ -48,9 +49,13 @@ class Room {
     }
     this.map[2][0] = "1"; // for testing
     this.map[2][1] = "2"; // for testing
-    this.map[2][2] = "1"; // for testing
+    this.map[2][2] = "2"; // for testing
     this.map[2][3] = "1"; // for testing
     this.map[3][1] = "2"; // for testing
+  }
+
+  generateNewCards(){
+    this.cards = []
   }
 }
 
@@ -133,6 +138,15 @@ io.on("connection", socket => {
       c.socket.emit("playerDataUpdate", client.id, [client.position]);
     }
   });
+
+  socket.on("sendCardUpdate", (data) => {
+    if(!client.room) return;
+    client.room.cards.push(data)
+
+    for(let c of client.room.clients){
+        c.socket.emit("cardUpdate", client.room.cards)
+    }
+  })
 });
 
 // function tick() {

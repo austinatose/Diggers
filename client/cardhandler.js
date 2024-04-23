@@ -6,7 +6,6 @@ class CardDS{
     
     init(){
         console.log("card init started");
-        console.log(this.cardArr)
         for(let card of this.cardData){
             if(card[0] == 1){
                 let newCard = new Sprite(card[1], card[2])

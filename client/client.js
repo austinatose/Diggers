@@ -64,7 +64,7 @@ function setup() {
 
   console.log("creating map");
 
-  world.gravity.y = 15;
+  world.gravity.y = 20;
   // createCanvas(1400, 800, WEBGL); // idk why it breaks when WEBGL is on
 
   //texture(p1);
@@ -72,7 +72,6 @@ function setup() {
 }
 
 function draw() {
-  console.log("iutviygv")
   background(200);
 
   // announcements and text
@@ -97,12 +96,10 @@ function draw() {
   // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
   clientplayer.sprite.draw();
   ourMap.draw();
-  console.log("Drawing Cards")
   ourCards.draw();
 
   // update server
   socket.emit("sendPlayerDataUpdate", [createVector(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y)]);
-  console.log("Spawning new Card")
   if (clientplayer.spawnCard){
     if(frameCount >= clientplayer.lastSpawn + 60){
         console.log("Spawning new Card")
@@ -124,7 +121,7 @@ socket.on("newMessage", (message) => { // new announcement to players
 });
 
 socket.on("playerDataUpdate", (id, playerData) => {
-  // console.log("playerDataUpdate", id, playerData);
+  console.log("playerDataUpdate", id, playerData);
   // console.log(playerData[0])
   if (playerEntities.has(id) && id !== myID){
     playerEntities.get(id).sprite.pos.x = playerData[0].x;

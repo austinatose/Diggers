@@ -9,11 +9,12 @@ class PlayerCharacter {
     this.avatar_id = Math.floor(Math.random()*2)+1
     this.sprite.img = `assets/player${this.avatar_id}.png`
     this.spawnCard = false;
+    this.lastSpawn = -60;
   }
 
   takeInput() {
     const SPEED = 10;
-    if (kb.pressing("")) {
+    if (kb.pressing(" ")) {
       this.sprite.pos.y -= 20;
     }
     if (kb.pressing("a")) {

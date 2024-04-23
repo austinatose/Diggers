@@ -104,9 +104,15 @@ function draw() {
   socket.emit("sendPlayerDataUpdate", [createVector(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y)]);
   console.log("Spawning new Card")
   if (clientplayer.spawnCard){
-    console.log("Spawning new Card")
-    socket.emit("sendCardUpdate", [1, 50, 50])
-    clientplayer.spawnCard = false;
+    if(frameCount >= clientplayer.lastSpawn + 60){
+        console.log("Spawning new Card")
+        socket.emit("sendCardUpdate", [1, 50, 50])
+        clientplayer.spawnCard = false;
+        clientplayer.lastSpawn = frameCount
+    } else {
+        clientplayer.spawnCard = false
+    }
+    
   }
   
   // console.log(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);

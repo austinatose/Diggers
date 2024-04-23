@@ -91,9 +91,11 @@ io.on("connection", socket => {
     room.addClient(client);
     client.room = room;
     room.generateNewMap();
+    room.generateNewCards();
 
     console.log(client.room)
     socket.emit("mapUpdate", room.map);
+    socket.emit("cardUpdate", room.cards);
     socket.emit("setRoomCode", roomCode);
   });
 
@@ -108,6 +110,7 @@ io.on("connection", socket => {
         for (let c of client.room.clients)
           c.socket.emit("newMessage", client.name + " joined the room");
         socket.emit("mapUpdate", room.map);
+        socket.emit("cardUpdate", room.cards);
         socket.emit("setRoomCode", roomCode);
         pass = true;
       }

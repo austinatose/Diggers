@@ -13,16 +13,18 @@ class PlayerCharacter {
 
   takeInput() {
     const SPEED = 10;
-    if (kb.pressing(" ")) {
+    if (kb.pressing("")) {
       this.sprite.pos.y -= 20;
-      this.spawnCard = true;
-      console.log("this.spawnCard = true")
     }
     if (kb.pressing("a")) {
       this.sprite.pos.x -= SPEED;
     }
     if (kb.pressing("d")) {
       this.sprite.pos.x += SPEED;
+    }
+    if (kb.pressing("c")) {
+      this.spawnCard = true;
+      console.log("this.spawnCard = true")
     }
   }
 }

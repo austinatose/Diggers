@@ -52,10 +52,11 @@ socket.on("mapUpdate", (receivedMap) => {
   ourMap.init();
 });
 
-socket.on("cardUpdate", (receivedCard) => {
-    console.log("cardUpdate", receivedCard);
-    ourCards.cardData = receivedCard;
-    ourCards.init();
+socket.on("cardUpdate", (receivedCards) => {
+  console.log("cardUpdate", receivedCards);
+  ourCards.cardData = receivedCards;
+  console.log(ourCards.cardData)
+  ourCards.init();
 })
 
 function setup() {
@@ -71,7 +72,7 @@ function setup() {
 }
 
 function draw() {
-    console.log("iutviygv")
+  console.log("iutviygv")
   background(200);
 
   // announcements and text
@@ -96,12 +97,13 @@ function draw() {
   // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
   clientplayer.sprite.draw();
   ourMap.draw();
+  console.log("Drawing Cards")
   ourCards.draw();
 
   // update server
   socket.emit("sendPlayerDataUpdate", [createVector(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y)]);
   console.log("Spawning new Card")
-  if(clientplayer.spawnCard){
+  if (clientplayer.spawnCard){
     console.log("Spawning new Card")
     socket.emit("sendCardUpdate", [1, 50, 50])
     clientplayer.spawnCard = false;

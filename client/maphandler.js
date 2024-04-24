@@ -48,7 +48,7 @@ class MapDS {
   draw() {
     for (let i = 0; i < 15; i++) {
       for (let j = 0; j < 7; j++) {
-        if (this.bricksArr[i][j]) {
+        if (this.bricksArr[i] != undefined && this.bricksArr[i][j]) {
           for (let brickcomponent of this.bricksArr[i][j]) {
             brickcomponent.draw();
           }

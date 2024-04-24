@@ -9,7 +9,7 @@ class PlayerCharacter {
     // this.avatar_id = Math.floor(Math.random()*2)+1
     // this.sprite.img = `assets/player${this.avatar_id}.png`
     // this.sprite.img = `assets/player1.png`
-    this.spawnCard = false;
+    this.cards = [];
     this.lastSpawn = -60;
   }
 
@@ -27,6 +27,12 @@ class PlayerCharacter {
     if (kb.pressing("c")) {
       this.spawnCard = true;
       console.log("this.spawnCard = true")
+    }
+
+    for(let card of this.cards){
+        if(card.sprite.mouse.hovering()){
+            card.sprite.color = "black"
+        } 
     }
   }
 }

@@ -37,7 +37,7 @@ socket.on("connected", (id) => {
 let ground, tilesGroup;
 let p1, p2, p3;
 let ourMap = new MapDS();
-let ourCards = new CardDS();
+let ourCards = []
 
 // function preload(){
 //   // p1 = loadImage('./assets/player1.png')
@@ -56,7 +56,6 @@ socket.on("cardUpdate", (receivedCards) => {
   console.log("cardUpdate", receivedCards);
   ourCards.cardData = receivedCards;
   console.log(ourCards.cardData)
-  ourCards.init();
 })
 
 function setup() {
@@ -69,6 +68,10 @@ function setup() {
 
   //texture(p1);
   clientplayer = new PlayerCharacter(300, 300);
+  for(let i = 0; i < 3; i++){
+    ourCards.push(new Card(Math.floor(random()*3) + 1, 700 + i*100, 100))
+    clientplayer.cards.push(ourCards[i])
+  }
 }
 
 function draw() {
@@ -96,21 +99,22 @@ function draw() {
   // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
   clientplayer.sprite.draw();
   ourMap.draw();
-  ourCards.draw();
+
+  for (let i = 0; i < 15; i++) {
+    for (let j = 0; j < 7; j++) {
+        if(ourMap.bricksArr[i] != undefined && ourMap.bricksArr[i][j] != undefined && ourMap.bricksArr[i][j][0].mouse.hovering()){
+            fill("white")
+            rect(ourMap.bricksArr[i][j][0].x - ourMap.bricksArr[i][j][0].width/2, ourMap.bricksArr[i][j][0].y - ourMap.bricksArr[i][j][0].height/2, 200, 200)
+        } 
+    }
+  }
+
+  
+
 
   // update server
   socket.emit("sendPlayerDataUpdate", [createVector(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y)]);
-  if (clientplayer.spawnCard){
-    if(frameCount >= clientplayer.lastSpawn + 60){
-        console.log("Spawning new Card")
-        socket.emit("sendCardUpdate", [1, 50, 50])
-        clientplayer.spawnCard = false;
-        clientplayer.lastSpawn = frameCount
-    } else {
-        clientplayer.spawnCard = false
-    }
-    
-  }
+  
   
   // console.log(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
 }
@@ -121,7 +125,7 @@ socket.on("newMessage", (message) => { // new announcement to players
 });
 
 socket.on("playerDataUpdate", (id, playerData) => {
-  console.log("playerDataUpdate", id, playerData);
+  //console.log("playerDataUpdate", id, playerData);
   // console.log(playerData[0])
   if (playerEntities.has(id) && id !== myID){
     playerEntities.get(id).sprite.pos.x = playerData[0].x;

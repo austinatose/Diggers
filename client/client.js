@@ -100,6 +100,9 @@ function draw() {
   clientplayer.sprite.draw();
   ourMap.draw();
 
+
+  // check for hovering
+  // TODO: Add keybind that triggers this, or this should only trigger when a card is selected to be used
   for (let i = 0; i < 15; i++) {
     for (let j = 0; j < 7; j++) {
         if(ourMap.bricksArr[i] != undefined && ourMap.bricksArr[i][j] != undefined && ourMap.bricksArr[i][j][0].mouse.hovering()){
@@ -109,12 +112,8 @@ function draw() {
     }
   }
 
-  
-
-
   // update server
   socket.emit("sendPlayerDataUpdate", [createVector(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y)]);
-  
   
   // console.log(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
 }

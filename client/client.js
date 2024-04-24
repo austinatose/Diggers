@@ -105,9 +105,15 @@ function draw() {
   // TODO: Add keybind that triggers this, or this should only trigger when a card is selected to be used
   for (let i = 0; i < 15; i++) {
     for (let j = 0; j < 7; j++) {
-        if(ourMap.bricksArr[i] != undefined && ourMap.bricksArr[i][j] != undefined && ourMap.bricksArr[i][j][0].mouse.hovering()){
-            fill("white")
-            rect(ourMap.bricksArr[i][j][0].x - ourMap.bricksArr[i][j][0].width/2, ourMap.bricksArr[i][j][0].y - ourMap.bricksArr[i][j][0].height/2, 200, 200)
+        // if(ourMap.bricksArr[i] != undefined && ourMap.bricksArr[i][j] != undefined && ourMap.bricksArr[i][j][0].mouse.hovering()) { // wait this may not work because translation is funny
+        if (ourMap.bricksArr[i] != undefined && ourMap.bricksArr[i][j] != undefined && 
+          mouse.x < ourMap.bricksArr[i][j][0].x + ourMap.bricksArr[i][j][0].width/2 && 
+          mouse.x > ourMap.bricksArr[i][j][0].x - ourMap.bricksArr[i][j][0].width/2 && 
+          mouse.y - height / 2 + clientplayer.sprite.y  < ourMap.bricksArr[i][j][0].y + ourMap.bricksArr[i][j][0].height/2 && 
+          mouse.y - height / 2 + clientplayer.sprite.y  > ourMap.bricksArr[i][j][0].y - ourMap.bricksArr[i][j][0].height/2
+        ) {
+          fill("white")
+          rect(ourMap.bricksArr[i][j][0].x - ourMap.bricksArr[i][j][0].width/2, ourMap.bricksArr[i][j][0].y - ourMap.bricksArr[i][j][0].height/2, 200, 200)
         } 
     }
   }

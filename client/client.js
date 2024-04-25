@@ -68,10 +68,7 @@ function setup() {
 
   //texture(p1);
   clientplayer = new PlayerCharacter(300, 300);
-  for(let i = 0; i < 3; i++){
-    ourCards.push(new Card(Math.floor(random()*3) + 1, 700 + i*100, 100))
-    clientplayer.cards.push(ourCards[i])
-  }
+  
 }
 
 function draw() {

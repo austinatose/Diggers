@@ -47,11 +47,16 @@ class Room {
         this.map[i].push("0");
       }
     }
+    this.map[0][0] = "1";
+    this.map[0][1] = "3";
+    this.map[1][1] = "2";
     this.map[2][0] = "1"; // for testing
-    this.map[2][1] = "2"; // for testing
-    this.map[2][2] = "2"; // for testing
+    this.map[2][1] = "1"; // for testing
+    this.map[2][2] = "3"; // for testing
     this.map[2][3] = "1"; // for testing
     this.map[3][1] = "2"; // for testing
+    this.map[3][2] = "5"; // for testing
+    this.map[1][0] = "6"; // for testing
   }
 
   generateNewCards(){

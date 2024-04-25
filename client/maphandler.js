@@ -39,7 +39,60 @@ class MapDS {
           brickcomponent2.collider = 'k';
           // brickcomponent2.img = loadImage('/assets/ROCK.png');
           this.bricksArr[i].push([brickcomponent1, brickcomponent2]);
+        } else if (this.mapArr[i][j] === "2"){
+            let brickcomponent = new Sprite(i * 200 + 175, 500 + j * 200);
+            brickcomponent.color = "black";
+            brickcomponent.height = 200;
+            brickcomponent.width = 50;
+            brickcomponent.collider = 'k';
+            // brickcomponent2.img = loadImage('/assets/ROCK.png');
+            this.bricksArr[i].push([brickcomponent]);
+        } else if (this.mapArr[i][j] === "3"){
+            let brickcomponent = new Sprite(i * 200 + 25, 500 + j * 200);
+            brickcomponent.color = "black";
+            brickcomponent.height = 200;
+            brickcomponent.width = 50;
+            brickcomponent.collider = 'k';
+            // brickcomponent2.img = loadImage('/assets/ROCK.png');
+            this.bricksArr[i].push([brickcomponent]);
+        } else if (this.mapArr[i][j] === "4"){
+            let brickcomponent = new Sprite(i * 200 + 100, 500 + j * 200 - 75);
+            brickcomponent.color = "black";
+            brickcomponent.height = 50;
+            brickcomponent.width = 200;
+            brickcomponent.collider = 'k';
+            // brickcomponent2.img = loadImage('/assets/ROCK.png');
+            this.bricksArr[i].push([brickcomponent]);
+        } else if (this.mapArr[i][j] === "5"){
+            let brickcomponent1 = new Sprite(i * 200 + 100, 500 + j * 200 - 75);
+            brickcomponent1.color = "black";
+            brickcomponent1.height = 50;
+            brickcomponent1.width = 200;
+            brickcomponent1.collider = 'k';
+            // brickcomponent1.img = loadImage('/assets/ROCK.png');
+            let brickcomponent2 = new Sprite(i * 200 + 175, 500 + j * 200);
+            brickcomponent2.color = "black";
+            brickcomponent2.height = 200;
+            brickcomponent2.width = 50;
+            brickcomponent2.collider = 'k';
+            // brickcomponent2.img = loadImage('/assets/ROCK.png');
+            this.bricksArr[i].push([brickcomponent1, brickcomponent2]);
+        } else if (this.mapArr[i][j] === "6"){
+            let brickcomponent1 = new Sprite(i * 200 + 100, 500 + j * 200 - 75);
+            brickcomponent1.color = "black";
+            brickcomponent1.height = 50;
+            brickcomponent1.width = 200;
+            brickcomponent1.collider = 'k';
+            // brickcomponent1.img = loadImage('/assets/ROCK.png');
+            let brickcomponent2 = new Sprite(i * 200 + 25, 500 + j * 200);
+            brickcomponent2.color = "black";
+            brickcomponent2.height = 200;
+            brickcomponent2.width = 50;
+            brickcomponent2.collider = 'k';
+            // brickcomponent2.img = loadImage('/assets/ROCK.png');
+            this.bricksArr[i].push([brickcomponent1, brickcomponent2]);
         }
+
       }
     }
     console.log(this.bricksArr);

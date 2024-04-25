@@ -30,10 +30,13 @@ class PlayerCharacter {
       console.log("this.spawnCard = true")
     }
 
-    for(let card of this.cards){
+    // wait why is this here instead of in client (I guess this works?) ~Austin
+    for (let card of this.cards){
         if(card.sprite.mouse.hovering()){
-            card.sprite.color = "black"
-        } 
+          card.sprite.color = "black"
+        } else {
+          card.sprite.color = "white"
+        }
     }
   }
 }

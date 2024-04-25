@@ -102,19 +102,29 @@ function draw() {
 
   // check for hovering
   // TODO: Add keybind that triggers this, or this should only trigger when a card is selected to be used
+  // right now empty spaces below ground level are highlighted BUT this should not be an issue because we will never have empty tiles
   for (let i = 0; i < 15; i++) {
     for (let j = 0; j < 7; j++) {
-        // if(ourMap.bricksArr[i] != undefined && ourMap.bricksArr[i][j] != undefined && ourMap.bricksArr[i][j][0].mouse.hovering()) { // wait this may not work because translation is funny
-        let mod = (clientplayer.sprite.y >= height / 2) ? height / 2 - clientplayer.sprite.y : 0;
-        if (ourMap.bricksArr[i] != undefined && ourMap.bricksArr[i][j] != undefined && 
-          mouse.x < ourMap.bricksArr[i][j][0].x + ourMap.bricksArr[i][j][0].width/2 && 
-          mouse.x > ourMap.bricksArr[i][j][0].x - ourMap.bricksArr[i][j][0].width/2 && 
-          mouse.y - mod  < ourMap.bricksArr[i][j][0].y + ourMap.bricksArr[i][j][0].height/2 && 
-          mouse.y - mod  > ourMap.bricksArr[i][j][0].y - ourMap.bricksArr[i][j][0].height/2
-        ) {
-          fill("white")
-          rect(ourMap.bricksArr[i][j][0].x - ourMap.bricksArr[i][j][0].width/2, ourMap.bricksArr[i][j][0].y - ourMap.bricksArr[i][j][0].height/2, 200, 200)
-        } 
+      let posx = i * 200 + 100
+      let posy = 500 + j * 200
+      // if(ourMap.bricksArr[i] != undefined && ourMap.bricksArr[i][j] != undefined && ourMap.bricksArr[i][j][0].mouse.hovering()) { // wait this may not work because translation is funny
+      let mod = (clientplayer.sprite.y >= height / 2) ? height / 2 - clientplayer.sprite.y : 0;
+      if (
+        ourMap.bricksArr[i] != undefined &&
+        ourMap.bricksArr[i][j] != undefined && 
+        ourMap.mapArr[i][j] == 0 && // only if it is a rock, but if we decide to allow players to replace tunnels, we can just remove this line
+        mouse.x < posx + 100 && 
+        mouse.x > posx - 100 && 
+        mouse.y - mod  < posy + ourMap.bricksArr[i][j][0].height/2 && 
+        mouse.y - mod  > posy - ourMap.bricksArr[i][j][0].height/2
+      ) {
+        push();
+        stroke("yellow");
+        strokeWeight(5);
+        noFill();
+        rect(posx - 100, posy - ourMap.bricksArr[i][j][0].height/2, 200, 200)
+        pop();
+      } 
     }
   }
 

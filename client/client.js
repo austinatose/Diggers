@@ -93,6 +93,9 @@ function draw() {
     }
   }
 
+  //testing map updates when placing a card
+  
+
   // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
   clientplayer.sprite.draw();
   ourMap.draw();

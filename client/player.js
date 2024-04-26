@@ -25,10 +25,7 @@ class PlayerCharacter {
     if (kb.pressing("d")) {
       this.sprite.pos.x += SPEED;
     }
-    if (kb.pressing("c")) {
-      this.spawnCard = true;
-      console.log("this.spawnCard = true")
-    }
+    
 
     // wait why is this here instead of in client (I guess this works?) ~Austin
     for (let card of this.cards){

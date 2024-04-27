@@ -48,6 +48,7 @@ let ourCards = []
 
 socket.on("mapUpdate", (receivedMap) => {
   console.log("mapUpdate", receivedMap);
+  ourMap.mapArr = []
   ourMap.mapArr = receivedMap;
   ourMap.init();
 });
@@ -94,6 +95,21 @@ function draw() {
   }
 
   //testing map updates when placing a card
+  if(kb.presses("c")){
+    console.log("changing map")
+    ourMap.mapArr[2][0] = "0";
+    ourMap.mapArr[3][0] = "1";
+    ourMap.mapArr[3][1] = "3";
+    ourMap.mapArr[4][1] = "5";
+    ourMap.mapArr[4][2] = "1";
+    //ourMap.init()
+    socket.emit("sendMapUpdate", ourMap.mapArr)
+    console.log("block state: ", ourMap.mapArr[5][0])
+  }
+
+  if(kb.presses("e")){
+    console.log("block state ", ourMap.mapArr[5][0])
+  }
   
 
   // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
@@ -150,3 +166,5 @@ socket.on("playerDataUpdate", (id, playerData) => {
     playerEntities.set(id, newPlayer);
   }
 })
+
+

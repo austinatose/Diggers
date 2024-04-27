@@ -4,7 +4,20 @@ class MapDS {
     this.bricksArr = [];
   }
 
+  clearMap(){
+    for(let i = 0; i < 15; i++){
+        for(let j = 0; j < 7; j++){
+            if(this.bricksArr[i] != undefined){
+                this.bricksArr[i][j].remove()
+            }
+        }
+    }
+
+    this.bricksArr = [];
+  }
+
   init() {
+    
     console.log("init started");
     // for (let i = 0; i < 15; i++) {
     //   this.mapArr.push([]);
@@ -14,10 +27,12 @@ class MapDS {
     // }
     // this.mapArr[14][3] = "1";
     console.log(this.mapArr);
+    //this.clearMap()
     for (let i = 0; i < 15; i++) {
       this.bricksArr.push([]);
       for (let j = 0; j < 7; j++) {
-        if (this.mapArr[i][j] === "0") {
+
+        if (this.mapArr[i][j] === "0") { //Uncovered Rock
           let brick = new Sprite(i * 200 + 100, 500 + j * 200);
           brick.color = "black";
           brick.height = 200;
@@ -25,7 +40,7 @@ class MapDS {
           brick.collider = 'k';
           brick.img = loadImage('/assets/ROCK.png');
           this.bricksArr[i].push([brick]);
-        } else if (this.mapArr[i][j] === "1") {
+        } else if (this.mapArr[i][j] === "1") { // Walls on both sides
           let brickcomponent1 = new Sprite(i * 200 + 25, 500 + j * 200);
           brickcomponent1.color = "black";
           brickcomponent1.height = 200;
@@ -39,7 +54,7 @@ class MapDS {
           brickcomponent2.collider = 'k';
           // brickcomponent2.img = loadImage('/assets/ROCK.png');
           this.bricksArr[i].push([brickcomponent1, brickcomponent2]);
-        } else if (this.mapArr[i][j] === "2"){
+        } else if (this.mapArr[i][j] === "2"){//Walls on the right side
             let brickcomponent = new Sprite(i * 200 + 175, 500 + j * 200);
             brickcomponent.color = "black";
             brickcomponent.height = 200;
@@ -47,7 +62,7 @@ class MapDS {
             brickcomponent.collider = 'k';
             // brickcomponent2.img = loadImage('/assets/ROCK.png');
             this.bricksArr[i].push([brickcomponent]);
-        } else if (this.mapArr[i][j] === "3"){
+        } else if (this.mapArr[i][j] === "3"){ //Walls on the left side
             let brickcomponent = new Sprite(i * 200 + 25, 500 + j * 200);
             brickcomponent.color = "black";
             brickcomponent.height = 200;
@@ -55,7 +70,7 @@ class MapDS {
             brickcomponent.collider = 'k';
             // brickcomponent2.img = loadImage('/assets/ROCK.png');
             this.bricksArr[i].push([brickcomponent]);
-        } else if (this.mapArr[i][j] === "4"){
+        } else if (this.mapArr[i][j] === "4"){ //Walls on the top
             let brickcomponent = new Sprite(i * 200 + 100, 500 + j * 200 - 75);
             brickcomponent.color = "black";
             brickcomponent.height = 50;
@@ -63,7 +78,7 @@ class MapDS {
             brickcomponent.collider = 'k';
             // brickcomponent2.img = loadImage('/assets/ROCK.png');
             this.bricksArr[i].push([brickcomponent]);
-        } else if (this.mapArr[i][j] === "5"){
+        } else if (this.mapArr[i][j] === "5"){ //Walls on the top and right
             let brickcomponent1 = new Sprite(i * 200 + 100, 500 + j * 200 - 75);
             brickcomponent1.color = "black";
             brickcomponent1.height = 50;
@@ -77,7 +92,7 @@ class MapDS {
             brickcomponent2.collider = 'k';
             // brickcomponent2.img = loadImage('/assets/ROCK.png');
             this.bricksArr[i].push([brickcomponent1, brickcomponent2]);
-        } else if (this.mapArr[i][j] === "6"){
+        } else if (this.mapArr[i][j] === "6"){ //Walls on the top and left
             let brickcomponent1 = new Sprite(i * 200 + 100, 500 + j * 200 - 75);
             brickcomponent1.color = "black";
             brickcomponent1.height = 50;
@@ -103,6 +118,9 @@ class MapDS {
       for (let j = 0; j < 7; j++) {
         if (this.bricksArr[i] != undefined && this.bricksArr[i][j]) {
           for (let brickcomponent of this.bricksArr[i][j]) {
+            if(i == 2 && j == 0){
+                console.log("drawing block state:", this.bricksArr[i][j])
+            }
             brickcomponent.draw();
           }
         }

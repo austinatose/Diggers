@@ -155,6 +155,15 @@ io.on("connection", socket => {
         c.socket.emit("cardUpdate", client.room.cards)
     }
   })
+
+  socket.on("sendMapUpdate", (newMap) => {
+    if(!client.room) return;
+    client.room.map = newMap
+
+    for(let c of client.room.clients){
+        c.socket.emit("mapUpdate", client.room.map)
+    }
+  })
 });
 
 // function tick() {

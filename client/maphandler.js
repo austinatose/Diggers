@@ -118,9 +118,9 @@ class MapDS {
       for (let j = 0; j < 7; j++) {
         if (this.bricksArr[i] != undefined && this.bricksArr[i][j]) {
           for (let brickcomponent of this.bricksArr[i][j]) {
-            if(i == 2 && j == 0){
-                console.log("drawing block state:", this.bricksArr[i][j])
-            }
+            // if(i == 2 && j == 0){
+            //     console.log("drawing block state:", this.bricksArr[i][j])
+            // }
             brickcomponent.draw();
           }
         }

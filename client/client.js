@@ -95,17 +95,7 @@ function draw() {
   }
 
   //testing map updates when placing a card
-  if(kb.presses("c")){
-    console.log("changing map")
-    ourMap.mapArr[2][0] = "0";
-    ourMap.mapArr[3][0] = "1";
-    ourMap.mapArr[3][1] = "3";
-    ourMap.mapArr[4][1] = "5";
-    ourMap.mapArr[4][2] = "1";
-    //ourMap.init()
-    socket.emit("sendMapUpdate", ourMap.mapArr)
-    console.log("block state: ", ourMap.mapArr[5][0])
-  }
+  
 
   if(kb.presses("e")){
     console.log("block state ", ourMap.mapArr[5][0])
@@ -140,6 +130,17 @@ function draw() {
         noFill();
         rect(posx - 100, posy - ourMap.bricksArr[i][j][0].height/2, 200, 200)
         pop();
+        if(kb.presses("c")){
+            console.log("changing map")
+            ourMap.mapArr[2+i][0+j] = "0";
+            ourMap.mapArr[3+i][0+j] = "1";
+            ourMap.mapArr[3+i][1+j] = "3";
+            ourMap.mapArr[4+i][1+j] = "5";
+            ourMap.mapArr[4+i][2+j] = "1";
+            //ourMap.init()
+            socket.emit("sendMapUpdate", ourMap.mapArr)
+            // console.log("block state: ", ourMap.mapArr[5][0])
+          }
       } 
     }
   }

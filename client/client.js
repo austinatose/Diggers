@@ -47,11 +47,10 @@ let ourCards = []
 // }
 
 socket.on("mapUpdate", (receivedMap) => {
-    console.log("mapUpdate", receivedMap);
-    ourMap.mapArr = []
-    ourMap.mapArr = receivedMap;
-    ourMap.clearMap();
-    ourMap.init();
+  console.log("mapUpdate", receivedMap);
+  ourMap.mapArr = receivedMap;
+  ourMap.clearMap();
+  ourMap.init();
 });
 
 socket.on("cardUpdate", (receivedCards) => {
@@ -96,14 +95,12 @@ function draw() {
     }
 
     //testing map updates when placing a card
-
-
     if (kb.presses("e")) {
         console.log("block state ", ourMap.mapArr[5][0])
     }
 
-
     // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
+    clientplayer.sprite.x = constrain(clientplayer.sprite.x, 0, width);
     clientplayer.sprite.draw();
     ourMap.draw();
 

@@ -18,7 +18,6 @@ class MapDS {
     }
 
     init() {
-
         console.log("init started");
         // for (let i = 0; i < 15; i++) {
         //   this.mapArr.push([]);

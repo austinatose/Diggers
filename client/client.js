@@ -134,14 +134,8 @@ function draw() {
                 pop();
                 if (mouseIsPressed) {
                     console.log("changing map")
-                    // ourMap.mapArr[0 + i][0 + j] = "1";
-                    // ourMap.mapArr[0 + i][1 + j] = "3";
-                    // ourMap.mapArr[1 + i][1 + j] = "5";
-                    // ourMap.mapArr[1 + i][2 + j] = "1";
-                    ourMap.updateMap(i, j, 6)
-                    //ourMap.init()
+                    ourMap.updateMap(i, j, Math.floor(Math.random()*13)+1)
                     socket.emit("sendMapUpdate", ourMap.mapArr)
-                    // console.log("block state: ", ourMap.mapArr[5][0])
                 }
             }
         }

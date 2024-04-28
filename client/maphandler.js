@@ -106,6 +106,8 @@ class MapDS {
                     brickcomponent2.collider = 'k';
                     // brickcomponent2.img = loadImage('/assets/ROCK.png');
                     this.bricksArr[i].push([brickcomponent1, brickcomponent2]);
+                } else if (this.mapArr[i][j] === '7'){
+                    this.bricksArr[i].push([])
                 }
 
             }
@@ -161,7 +163,38 @@ class MapDS {
             this.mapArr[x + 1][y + 1] = '3'
             this.mapArr[x + 2][y + 1] = '2'
             this.mapArr[x + 2][y + 2] = '1' 
-        } 
+        } else if (card_no == 7){
+            this.mapArr[x + 0][y + 0] = '1'
+            this.mapArr[x + 0][y + 1] = '3'
+            this.mapArr[x + 1][y + 1] = '4'
+            this.mapArr[x + 2][y + 1] = '5'
+            this.mapArr[x + 2][y + 2] = '1'
+        } else if (card_no == 8){
+            this.mapArr[x + 0][y + 0] = '1'
+            this.mapArr[x + 0][y + 1] = '2'
+            this.mapArr[x - 1][y + 1] = '4'
+            this.mapArr[x - 2][y + 1] = '6'
+            this.mapArr[x - 2][y + 2] = '1'
+        } else if (card_no == 9){
+            this.mapArr[x + 0][y + 0] = '7'
+            this.mapArr[x - 1][y + 0] = '3'
+            this.mapArr[x + 1][y + 0] = '2'
+        } else if (card_no == 10){
+            this.mapArr[x + 0][y + 0] = '3'
+            this.mapArr[x + 1][y + 0] = '2'
+        } else if (card_no == 11){
+            this.mapArr[x + 0][y + 0] = '1'
+        } else if (card_no == 12){
+            this.mapArr[x + 0][y + 0] = '1'
+            this.mapArr[x + 0][y + 1] = '1'
+        } else if (card_no == 13){
+            this.mapArr[x + 0][y + 0] = '1'
+            this.mapArr[x + 0][y + 1] = '1'
+            this.mapArr[x + 0][y + 2] = '1'
+        }
+
+
+
     }
 }
 

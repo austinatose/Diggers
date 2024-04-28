@@ -95,13 +95,12 @@ function draw() {
     }
 
     //testing map updates when placing a card
-
-
     if (kb.presses("e")) {
         console.log("block state ", ourMap.mapArr[5][0])
     }
 
     // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
+    clientplayer.sprite.x = constrain(clientplayer.sprite.x, 0, width);
     clientplayer.sprite.draw();
     ourMap.draw();
 
@@ -130,6 +129,7 @@ function draw() {
                 rect(posx - 100, posy - ourMap.bricksArr[i][j][0].height / 2, 200, 200)
                 pop();
                 if (kb.presses("c")) {
+                    // this is very suspicious
                     console.log("changing map")
                     ourMap.mapArr[2 + i][0 + j] = "0";
                     ourMap.mapArr[3 + i][0 + j] = "1";

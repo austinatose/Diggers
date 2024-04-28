@@ -120,7 +120,11 @@ function draw() {
                 mouse.x < posx + 100 &&
                 mouse.x > posx - 100 &&
                 mouse.y - mod < posy + ourMap.bricksArr[i][j][0].height / 2 &&
-                mouse.y - mod > posy - ourMap.bricksArr[i][j][0].height / 2
+                mouse.y - mod > posy - ourMap.bricksArr[i][j][0].height / 2 &&
+                mouse.x > 0 &&
+                mouse.x < width &&
+                mouse.y > 0 &&
+                mouse.y < height
             ) {
                 push();
                 stroke("yellow");

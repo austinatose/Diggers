@@ -129,8 +129,40 @@ class MapDS {
         }
     }
 
-    updateMap(x, y, value) {
-
+    updateMap(x, y, card_no) {
+        if (card_no == 1){
+            this.mapArr[x + 0][y + 0] = '1'
+            this.mapArr[x + 0][y + 1] = '1' 
+            this.mapArr[x + 0][y + 2] = '2'
+            this.mapArr[x - 1][y + 2] = '6'
+        } else if (card_no == 2){
+            this.mapArr[x + 0][y + 0] = '1'
+            this.mapArr[x + 0][y + 1] = '1' 
+            this.mapArr[x + 0][y + 2] = '2'
+            this.mapArr[x + 1][y + 2] = '5'
+        } else if (card_no == 3){
+            this.mapArr[x + 0][y + 0] = '3'
+            this.mapArr[x + 1][y + 0] = '2' 
+            this.mapArr[x + 1][y + 1] = '3'
+            this.mapArr[x + 2][y + 1] = '5'
+        } else if (card_no == 4){
+            this.mapArr[x + 0][y + 0] = '2'
+            this.mapArr[x - 1][y + 0] = '3' 
+            this.mapArr[x - 1][y + 1] = '2'
+            this.mapArr[x - 2][y + 1] = '6'
+        } else if (card_no == 5){
+            this.mapArr[x + 0][y + 0] = '2'
+            this.mapArr[x - 1][y + 0] = '3' 
+            this.mapArr[x - 1][y + 1] = '2'
+            this.mapArr[x - 2][y + 1] = '3'
+            this.mapArr[x - 2][y + 2] = '1'
+        } else if (card_no == 6){
+            this.mapArr[x + 0][y + 0] = '3'
+            this.mapArr[x + 1][y + 0] = '2' 
+            this.mapArr[x + 1][y + 1] = '3'
+            this.mapArr[x + 2][y + 1] = '2'
+            this.mapArr[x + 2][y + 2] = '1' 
+        } 
     }
 }
 

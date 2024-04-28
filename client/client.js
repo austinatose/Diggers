@@ -131,13 +131,13 @@ function draw() {
                 noFill();
                 rect(posx - 100, posy - ourMap.bricksArr[i][j][0].height / 2, 200, 200)
                 pop();
-                if (kb.presses("c")) {
+                if (mouseIsPressed) {
                     console.log("changing map")
-                    ourMap.mapArr[2 + i][0 + j] = "0";
-                    ourMap.mapArr[3 + i][0 + j] = "1";
-                    ourMap.mapArr[3 + i][1 + j] = "3";
-                    ourMap.mapArr[4 + i][1 + j] = "5";
-                    ourMap.mapArr[4 + i][2 + j] = "1";
+                    // ourMap.mapArr[0 + i][0 + j] = "1";
+                    // ourMap.mapArr[0 + i][1 + j] = "3";
+                    // ourMap.mapArr[1 + i][1 + j] = "5";
+                    // ourMap.mapArr[1 + i][2 + j] = "1";
+                    ourMap.updateMap(i, j, 6)
                     //ourMap.init()
                     socket.emit("sendMapUpdate", ourMap.mapArr)
                     // console.log("block state: ", ourMap.mapArr[5][0])

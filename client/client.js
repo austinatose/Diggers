@@ -114,6 +114,10 @@ function draw() {
     //     }
     // }
 
+    if (clientplayer.sprite.y > height / 2) {
+        translate(0, height / 2 - clientplayer.sprite.y);
+    }
+
     // airdrop check
     for (let airdrop of airdrops) {
         airdrop.draw();
@@ -126,11 +130,6 @@ function draw() {
 
             // more logic to deal with adding cards to the player's hand goes here
         }
-    }
-
-
-    if (clientplayer.sprite.y > height / 2) {
-        translate(0, height / 2 - clientplayer.sprite.y);
     }
 
     // draw others

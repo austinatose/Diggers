@@ -64,7 +64,7 @@ function setup() {
 
     console.log("creating map");
 
-    world.gravity.y = 20;
+    world.gravity.y = 50;
     // createCanvas(1400, 800, WEBGL); // idk why it breaks when WEBGL is on
 
     //texture(p1);
@@ -81,7 +81,7 @@ function draw() {
     text("Room Code: " + currentRoomCode, 20, 20);
 
     // player updates
-    clientplayer.takeInput();
+    clientplayer.takeInput(ourMap.bricksArr);
     if (clientplayer.sprite.y > height / 2) {
         translate(0, height / 2 - clientplayer.sprite.y);
     }

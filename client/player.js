@@ -10,34 +10,50 @@ class PlayerCharacter {
     // this.sprite.img = `assets/player${this.avatar_id}.png`
     this.sprite.img = `assets/player1.png`
     this.sprite.ani.scale = 0.3
-    this.cards = [];
+    this.sprite.bounciness = 0;
     this.lastSpawn = -60;
     this.isFalling = false
+    this.sprite.friction = 0;
+
+    this.groundSensor = new Sprite(x, y + 30);
+    this.groundSensor.collider = "none";
+    this.groundSensor.width = 5;
+    this.groundSensor.height = 1;
+    this.groundSensor.mass = 0;
+    this.groundSensor.visible = false;
   }
 
-  takeInput() {
+  takeInput(bricksArr) {
     const SPEED = 10;
     if (kb.pressing(" ")) {
       if (!this.isFalling) {
-	      this.sprite.vel.y -= 10;
+	      this.sprite.vel.y = -27;
+        this.isFalling = true;
       }
     }
     if (kb.pressing("a")) {
-      this.sprite.pos.x -= SPEED;
+      this.sprite.mirror.x = true;
+      this.sprite.vel.x = -SPEED;
+    } else if (kb.pressing("d")) {
+      this.sprite.mirror.x = false;
+      this.sprite.vel.x = SPEED;
+    } else {
+      this.sprite.vel.x = 0;
     }
-    if (kb.pressing("d")) {
-      this.sprite.pos.x += SPEED;
-    }
-    
 
-    // wait why is this here instead of in client (I guess this works?) ~Austin
-    for (let card of this.cards){
-        if(card.sprite.mouse.hovering()){
-          card.sprite.color = "black"
-        } else {
-          card.sprite.color = "white"
+    // this may be a resource hog
+    for (let brickRow of bricksArr) {
+      for (let brick of brickRow) {
+        for (let component of brick) {
+          if (this.groundSensor.overlaps(component)) {
+            this.isFalling = false;
+          }
         }
+      }
     }
+
+    this.groundSensor.position.x = this.sprite.position.x;
+    this.groundSensor.position.y = this.sprite.position.y + 30;
   }
 }
 

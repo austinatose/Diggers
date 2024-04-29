@@ -14,6 +14,7 @@ class PlayerCharacter {
     this.lastSpawn = -60;
     this.isFalling = false
     this.sprite.friction = 0;
+    this.maxSpeed = 10
 
     this.groundSensor = new Sprite(x, y + 30);
     this.groundSensor.collider = "none";
@@ -24,7 +25,7 @@ class PlayerCharacter {
   }
 
   takeInput(bricksArr) {
-    const SPEED = 10;
+    
     if (kb.pressing(" ")) {
       if (!this.isFalling) {
 	      this.sprite.vel.y = -27;
@@ -33,10 +34,10 @@ class PlayerCharacter {
     }
     if (kb.pressing("a")) {
       this.sprite.mirror.x = true;
-      this.sprite.vel.x = -SPEED;
+      this.sprite.vel.x = -this.maxSpeed;
     } else if (kb.pressing("d")) {
       this.sprite.mirror.x = false;
-      this.sprite.vel.x = SPEED;
+      this.sprite.vel.x = this.maxSpeed;
     } else {
       this.sprite.vel.x = 0;
     }

@@ -114,6 +114,8 @@ function draw() {
     //     }
     // }
 
+    
+
     if (clientplayer.sprite.y > height / 2) {
         translate(0, height / 2 - clientplayer.sprite.y);
     }
@@ -121,11 +123,16 @@ function draw() {
     // airdrop check
     for (let airdrop of airdrops) {
         airdrop.draw();
-        if (clientplayer.sprite.overlaps(airdrop.sprite)) {
+        if (playerCards.length <= 3 && clientplayer.sprite.overlaps(airdrop.sprite)) {
             console.log("airdrop collected")
+            if(airdrop.type == 14){
+                this.maxSpeed = 20
+            } else {
+                playerCards.push(new PlayerCard(airdrop.type, playerCards.length*100 + 900, 100))
+            }
+            
             socket.emit("airdropCollected", airdrop.id);
-            playerCards.push(new PlayerCard(airdrop.type, playerCards.length*100 + 600, 100))
-            airdrop.sprite.remove();
+            airdrop.sprite.remove();   
             airdrops.splice(airdrops.indexOf(airdrop), 1)
 
             // more logic to deal with adding cards to the player's hand goes here
@@ -146,24 +153,9 @@ function draw() {
     clientplayer.sprite.draw();
     ourMap.draw();
 
-    for(let i = 0; i < playerCards.length; i++){
-        playerCards[i].draw();
-       
-        if(frameCount - lastClickFrame > 10 && playerCards[i].isClicked()){
-            if(isCardSelected == false){
-                selectedCardType = playerCards[i].type
-                selectedCardIndex = i
-                isCardSelected = true;
-            } else {
-                selectedCardType = -1
-                selectedCardIndex = -1
-                isCardSelected = false;
-            }
+    
 
-            lastClickFrame = frameCount
-           
-        }
-    }
+    
 
    
 
@@ -205,16 +197,60 @@ function draw() {
                 noFill();
                 rect(posx - 100, posy - ourMap.bricksArr[i][j][0].height / 2, 200, 200)
                 pop();
-                if (mouseIsPressed) {
+                if (mouseIsPressed && isValid) {
                     console.log("changing map")
                     ourMap.updateMap(i, j, selectedCardType)
                     playerCards[selectedCardIndex].sprite.remove()
                     playerCards.splice(selectedCardIndex, 1)
+                    selectedCardType = -1
+                    selectedCardIndex = -1
+                    isCardSelected = false;
                     socket.emit("sendMapUpdate", ourMap.mapArr)
+
+                    console.log("PLAYER CARDS ARE:", playerCards)
                 }
             }
         }
     }
+
+    if (clientplayer.sprite.y > height / 2) { //reverse the translate
+        translate(0, -(height / 2 - clientplayer.sprite.y));
+    }
+
+    for(let i = 0; i < playerCards.length; i++){
+        playerCards[i].draw();
+        playerCards[i].posUpdate(i);
+
+       
+        if(frameCount - lastClickFrame > 10 && playerCards[i].isClicked()){
+            
+            if(isCardSelected == false){
+                selectedCardType = playerCards[i].type
+                selectedCardIndex = i
+                isCardSelected = true;
+            } else {
+                selectedCardType = -1
+                selectedCardIndex = -1
+                isCardSelected = false;
+            }
+
+            lastClickFrame = frameCount
+           
+        }
+        
+        
+
+        if(i == selectedCardIndex){
+            strokeWeight(5)
+            stroke('yellow')
+            noFill()
+            rect(i*100 + 900 - 36, 100 - 51, 72, 102)
+            strokeWeight(0)
+            stroke('black')
+        }
+    }
+
+
 
     // update server
     socket.emit("sendPlayerDataUpdate", [createVector(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y)]);

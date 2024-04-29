@@ -4,8 +4,8 @@ class PlayerCard{
         this.x = x //xpos
         this.y = y //ypos
         this.sprite = new Sprite(x, y);
-        this.sprite.width = 30
-        this.sprite.height = 60
+        this.sprite.width = 70
+        this.sprite.height = 100
         this.sprite.collider = "none"
         this.sprite.img = `assets/card${this.type}.png` 
         
@@ -25,10 +25,17 @@ class PlayerCard{
     }
 
     isClicked(){
-        if(mouseX >= this.x - this.sprite.width/2 && mouseX <= this.x + this.sprite.width/2 && mouseY >= this.y - this.sprite.height/2 && mouseY <= this.y + this.sprite.height/2 && mouseIsPressed){
+        if(mouseX >= this.sprite.x - this.sprite.width/2 && mouseX <= this.sprite.x + this.sprite.width/2 && mouseY >= this.sprite.y - this.sprite.height/2 && mouseY <= this.sprite.y + this.sprite.height/2 && mouseIsPressed){
             return true
         } else {
             return false
         }
+    }
+
+    posUpdate(pos){
+       
+       this.sprite.x = pos*100 + 900
+       this.sprite.y = 100
+       this.sprite.draw()
     }
 }

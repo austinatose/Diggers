@@ -87,7 +87,7 @@ function draw() {
         if(frameCount - clientplayer.lastSpawn > 60){
             console.log("ERROR0")
             socket.emit("sendCardUpdate", new Card(Math.floor(Math.random()*15)+1, Math.random()*1300, 20))
-            console.log("ERROR1")
+            console.log("ERROR1") // This one does not print
             clientplayer.lastSpawn = frameCount
             console.log("New card spawns")
         }

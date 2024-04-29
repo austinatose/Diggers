@@ -15,7 +15,7 @@ function Client(socket) {
   this.room = null;
   this.name = "Anonymous";
   this.position = { x: 0, y: 0 };
-  this.heldItem = null;
+  this.heldCards = [];
   this.id = clients.size;
 }
 
@@ -24,7 +24,7 @@ class Room {
     this.clients = [];
     this.id = id;
     this.map = [];
-    this.cards = []
+    this.activeAirDrops = [];
   }
 
   addClient(client) {
@@ -100,7 +100,6 @@ io.on("connection", socket => {
 
     console.log(client.room)
     socket.emit("mapUpdate", room.map);
-    socket.emit("cardUpdate", room.cards);
     socket.emit("setRoomCode", roomCode);
   });
 
@@ -115,7 +114,6 @@ io.on("connection", socket => {
         for (let c of client.room.clients)
           c.socket.emit("newMessage", client.name + " joined the room");
         socket.emit("mapUpdate", room.map);
-        socket.emit("cardUpdate", room.cards);
         socket.emit("setRoomCode", roomCode);
         pass = true;
       }
@@ -147,15 +145,6 @@ io.on("connection", socket => {
     }
   });
 
-  socket.on("sendCardUpdate", (data) => {
-    if(!client.room) return;
-    client.room.cards.push(data)
-
-    for(let c of client.room.clients){
-        c.socket.emit("cardUpdate", client.room.cards)
-    }
-  })
-
   socket.on("sendMapUpdate", (newMap) => {
     if(!client.room) return;
     client.room.map = newMap
@@ -164,16 +153,48 @@ io.on("connection", socket => {
         c.socket.emit("mapUpdate", client.room.map)
     }
   })
+
+  socket.on("sendCardUpdate", (newCards) => {
+    if(!client.room) return;
+    client.room.cards = newCards
+
+    for(let c of client.room.clients){
+        c.socket.emit("cardUpdate", client.room.cards)
+    }
+  })
+
+  socket.on("airdropCollected", (airdropID) => {
+    if(!client.room) return;
+    console.log("airdropCollected", airdropID);
+    for (let i = 0; i < client.room.activeAirDrops.length; i++) {
+      if (client.room.activeAirDrops[i][3] === airdropID) {
+        // client.heldCards.push(client.room.activeAirDrops[i][0]);
+        client.room.activeAirDrops.splice(i, 1);
+        break;
+      }
+    }
+    for (let c of client.room.clients) {
+      client.socket.emit("deleteAirdrop", airdropID);
+    }
+  })
 });
 
-// function tick() {
-//   for (let room of rooms) {
-//     for (let client of room.clients) {
-//       client.socket.emit("playerDataUpdate", room.clients.map((c) => ({ id: c.id, position: c.position })));
-//       // client.socket.emit("mapUpdate", room.map);
-//     }
-//   }
-// }
+// this works but all the rooms will get airdrops at the same time lol
+let id = 0;
+function distributeAirdrops() {
+  for (let room of rooms) {
+    for (let client of room.clients) {
+      let newAirdrop = [Math.floor(Math.random()*15)+1, Math.random() * 700, 0, id];
+      room.activeAirDrops.push(newAirdrop);
+      client.socket.emit("newMessage", "Airdrop incoming!");
+      client.socket.emit("airdrop", newAirdrop);
+      console.log(room.activeAirDrops);
+      id++;
+    }
+  }
+}
+
+setInterval(distributeAirdrops, 20000); // every 20 seconds
 
 function generateRandomRoomCode() {
   return (+new Date()).toString(36).slice(-5);

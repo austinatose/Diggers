@@ -37,7 +37,7 @@ socket.on("connected", (id) => {
 let ground, tilesGroup;
 let p1, p2, p3;
 let ourMap = new MapDS();
-let ourCards = []
+let airdrops = []
 let playerCards = []
 
 // function preload(){
@@ -58,6 +58,23 @@ socket.on("cardUpdate", (receivedCards) => {
     console.log("cardUpdate", receivedCards);
     ourCards = receivedCards;
     console.log("RECEIVED CARD UPDATE")
+})
+
+// some weird stuff will definitely happen when people do not collect an airdrop before the next one arrives, i don't have time to worry about that right now
+socket.on("airdrop", (newairdropdetails) => {
+    console.log("airdrop", newairdropdetails);
+    let newAirdrop = new Airdrop(newairdropdetails[0], newairdropdetails[1], newairdropdetails[2], newairdropdetails[3]);
+    airdrops.push(newAirdrop);
+    console.log("RECEIVED CARD UPDATE")
+})
+
+socket.on("deleteAirdrop", (id) => {
+    for (let airdrop of airdrops) {
+        if (airdrop.id === id) {
+            airdrop.sprite.remove();
+            airdrops.splice(airdrops.indexOf(airdrop), 1);
+        }
+    }
 })
 
 function setup() {
@@ -83,15 +100,30 @@ function draw() {
 
     // player updates
     clientplayer.takeInput(ourMap.bricksArr);
-    if(kb.pressing('c')){
-        if(frameCount - clientplayer.lastSpawn > 60){
-            console.log("ERROR0")
-            socket.emit("sendCardUpdate", new Card(Math.floor(Math.random()*15)+1, Math.random()*1300, 20))
-            console.log("ERROR1") // This one does not print
-            clientplayer.lastSpawn = frameCount
-            console.log("New card spawns")
+    // if (kb.pressing('c')){
+    //     if(frameCount - clientplayer.lastSpawn > 60){
+    //         console.log("ERROR0")
+    //         socket.emit("sendCardUpdate", new Card(Math.floor(Math.random()*15)+1, Math.random()*1300, 20))
+    //         // console.log("ERROR1") // This one does not print
+    //         clientplayer.lastSpawn = frameCount
+    //         console.log("New card spawns")
+    //     }
+    // }
+
+    // airdrop check
+    for (let airdrop of airdrops) {
+        airdrop.draw();
+        if (clientplayer.sprite.overlaps(airdrop.sprite)) {
+            console.log("airdrop collected")
+            socket.emit("airdropCollected", airdrop.id);
+            airdrop.sprite.remove();
+            airdrops.splice(airdrops.indexOf(airdrop), 1)
+
+            // more logic to deal with adding cards to the player's hand goes here
         }
     }
+
+
     if (clientplayer.sprite.y > height / 2) {
         translate(0, height / 2 - clientplayer.sprite.y);
     }

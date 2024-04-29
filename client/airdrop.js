@@ -1,6 +1,7 @@
-class Card{
-    constructor(type, x, y){
+class Airdrop{
+    constructor(type, x, y, id){
         this.type = type
+        this.id = id
         this.sprite = new Sprite(x, y)
         this.sprite.width = 70
         this.sprite.height = 100

@@ -116,6 +116,7 @@ function draw() {
         if (clientplayer.sprite.overlaps(airdrop.sprite)) {
             console.log("airdrop collected")
             socket.emit("airdropCollected", airdrop.id);
+            playerCards.push(new PlayerCard(airdrop.sprite.type, playerCards.length*100 + 600, 100))
             airdrop.sprite.remove();
             airdrops.splice(airdrops.indexOf(airdrop), 1)
 

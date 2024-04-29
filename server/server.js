@@ -194,7 +194,7 @@ function distributeAirdrops() {
   }
 }
 
-setInterval(distributeAirdrops, 20000); // every 20 seconds
+setInterval(distributeAirdrops, 5000); // every 5 seconds
 
 function generateRandomRoomCode() {
   return (+new Date()).toString(36).slice(-5);

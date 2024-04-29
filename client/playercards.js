@@ -14,6 +14,8 @@ class PlayerCard{
             this.sprite.color = "green";
         } else if (this.type == 3){
             this.sprite.color = "blue";
+        } else {
+            this.sprite.color = "purple"
         }
     }
 }

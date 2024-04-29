@@ -1,4 +1,4 @@
-class Card{
+class PlayerCard{
     constructor(type, x, y){
         this.type = type //a number
         this.x = x //xpos

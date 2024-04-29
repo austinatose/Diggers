@@ -18,7 +18,7 @@ class PlayerCharacter {
   takeInput() {
     const SPEED = 10;
     if (kb.pressing(" ")) {
-      if (!this.isFalling) {
+      if (!this.isFalling && Math.abs(this.sprite.vel.y) < 0.4) {
 	      this.sprite.vel.y -= 10;
       }
     }

@@ -113,7 +113,6 @@ function draw() {
     // check for hovering
     // TODO: Add keybind that triggers this, or this should only trigger when a card is selected to be used
     // right now empty spaces below ground level are highlighted BUT this should not be an issue because we will never have empty tiles
-    let player_on_ground = false;
 
     for (let i = 0; i < 15; i++) {
         for (let j = 0; j < 7; j++) {
@@ -121,15 +120,6 @@ function draw() {
             let posy = 500 + j * 200
             // if(ourMap.bricksArr[i] != undefined && ourMap.bricksArr[i][j] != undefined && ourMap.bricksArr[i][j][0].mouse.hovering()) { // wait this may not work because translation is funny
             let mod = (clientplayer.sprite.y >= height / 2) ? height / 2 - clientplayer.sprite.y : 0;
-            
-            if(ourMap.bricksArr[i] != undefined && ourMap.bricksArr[i][j] != undefined && !player_on_ground){
-                for(let k = 0; k < ourMap.bricksArr[i][j].length; k++){
-                    if(clientplayer.sprite.colliding(ourMap.bricksArr[i][j][k])){
-                        player_on_ground = true;
-                        break;
-                    }
-                }
-            }
 
             if (
                 ourMap.bricksArr[i] != undefined &&
@@ -158,8 +148,6 @@ function draw() {
             }
         }
     }
-
-    clientplayer.isFalling = !player_on_ground
 
     // update server
     socket.emit("sendPlayerDataUpdate", [createVector(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y)]);

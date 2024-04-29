@@ -60,7 +60,7 @@ socket.on("cardUpdate", (receivedCards) => {
 })
 
 function setup() {
-    new Canvas(1400, 800);
+    new Canvas(1400, 1000);
 
     console.log("creating map");
 

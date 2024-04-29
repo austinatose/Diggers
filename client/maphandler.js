@@ -196,5 +196,175 @@ class MapDS {
 
 
     }
+
+    checkValidPlacement(type, x, y){
+        if(type == 1){
+            
+            if(x < 1 || y > 14 - 2){
+                return false
+            }
+
+            if(this.mapArr[x + 0][y + 0] == '0' &&
+            this.mapArr[x + 0][y + 1] == '0' &&
+            this.mapArr[x + 0][y + 2] == '0' &&
+            this.mapArr[x - 1][y + 2] == '0'){
+                return true;
+            } else {
+                return false;
+            }
+        } else if (type == 2){
+
+            if(x > 6 - 1 || y > 14 - 2){
+                return false
+            }
+
+            if(this.mapArr[x + 0][y + 0] == '0' &&
+            this.mapArr[x + 0][y + 1] == '0' &&
+            this.mapArr[x + 0][y + 2] == '0' &&
+            this.mapArr[x + 1][y + 2] == '0'){
+                return true;
+            } else {
+                return false;
+            }
+        } else if (type == 3){
+
+            if(x > 6 - 2 || y > 14 - 1){
+                return false
+            }
+
+            if(this.mapArr[x + 0][y + 0] == '0' &&
+            this.mapArr[x + 1][y + 0] == '0' && 
+            this.mapArr[x + 1][y + 1] == '0' &&
+            this.mapArr[x + 2][y + 1] == '0'){
+                return true;
+            } else {
+                return false;
+            }
+
+        } else if (type == 4){
+
+            if(x < 2 || y > 14 - 1){
+                return false
+            }
+
+            if(this.mapArr[x + 0][y + 0] == '0' &&
+            this.mapArr[x - 1][y + 0] == '0' &&
+            this.mapArr[x - 1][y + 1] == '0' &&
+            this.mapArr[x - 2][y + 1] == '0'){
+                return true;
+            } else {
+                return false;
+            }
+        } else if (type == 5){
+
+            if(x < 2 || y > 14 - 2){
+                return false
+            }
+
+            if(this.mapArr[x + 0][y + 0] == '0' &&
+            this.mapArr[x - 1][y + 0] == '0' &&
+            this.mapArr[x - 1][y + 1] == '0'&&
+            this.mapArr[x - 2][y + 1] == '0'&&
+            this.mapArr[x - 2][y + 2] == '0'){
+                return true;
+            } else {
+                return false;
+            }
+        } else if (type == 6){
+               
+            if(x > 6 - 2 || y > 14 - 2){
+                return false
+            }
+
+            if(this.mapArr[x + 0][y + 0] == '0' &&
+            this.mapArr[x + 1][y + 0] == '0' &&
+            this.mapArr[x + 1][y + 1] == '0'&&
+            this.mapArr[x + 2][y + 1] == '0'&&
+            this.mapArr[x + 2][y + 2] == '0'){
+                return true;
+            } else {
+                return false;
+            }
+        } else if (type == 7){
+            if(x > 6 - 2 || y > 14 - 2){
+                return false
+            }
+
+            if(this.mapArr[x + 0][y + 0] == '0' &&
+            this.mapArr[x + 0][y + 1] == '0' &&
+            this.mapArr[x + 1][y + 1] == '0' &&
+            this.mapArr[x + 2][y + 1] == '0' &&
+            this.mapArr[x + 2][y + 2] == '0'){
+                return true;
+            } else {
+                return false;
+            }
+        } else if (type == 8){
+            if(x < 2 || y > 14 - 2){
+                return false
+            }
+            if(this.mapArr[x + 0][y + 0] == '0' &&
+            this.mapArr[x + 0][y + 1] == '0' &&
+            this.mapArr[x - 1][y + 1] == '0' &&
+            this.mapArr[x - 2][y + 1] == '0' &&
+            this.mapArr[x - 2][y + 2] == '0'){ 
+                return true;
+            } else {
+                return false;
+            }
+        } else if (type == 9){
+            if(x > 6 - 1 || x < 1){
+                return false
+            }
+            if(this.mapArr[x + 0][y + 0] == '0' &&
+            this.mapArr[x - 1][y + 0] == '0' &&
+            this.mapArr[x + 1][y + 0] == '0'){ 
+                return true;
+            } else {
+                return false;
+            }
+        } else if (type == 10){
+            
+            if(x > 6 - 1){
+                return false
+            }
+
+            if(this.mapArr[x + 0][y + 0] == '0' &&
+            this.mapArr[x + 1][y + 0] == '0'){ 
+                return true;
+            } else {
+                return false;
+            }
+        } else if (type == 11){
+            if(this.mapArr[x + 0][y + 0] == '0'){ 
+                return true;
+            } else {
+                return false;
+            }
+        } else if (type == 12){
+            if(y > 14 - 1){
+                return false
+            }
+            if(this.mapArr[x + 0][y + 0] == '0' &&
+            this.mapArr[x + 0][y + 1] == '0'){ 
+                return true;
+            } else {
+                return false;
+            }
+        } else if (type == 13){
+
+            if(y > 14 - 2){
+                return false
+            }
+
+            if(this.mapArr[x + 0][y + 0] == '0' &&
+            this.mapArr[x + 0][y + 1] == '0' &&
+            this.mapArr[x + 0][y + 2] == '0'){ 
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 }
 

@@ -39,6 +39,10 @@ let p1, p2, p3;
 let ourMap = new MapDS();
 let airdrops = []
 let playerCards = []
+let isCardSelected = false;
+let selectedCardType = -1;
+let selectedCardIndex = -1;
+let lastClickFrame = 0;
 
 // function preload(){
 //   // p1 = loadImage('./assets/player1.png')
@@ -116,7 +120,7 @@ function draw() {
         if (clientplayer.sprite.overlaps(airdrop.sprite)) {
             console.log("airdrop collected")
             socket.emit("airdropCollected", airdrop.id);
-            playerCards.push(new PlayerCard(airdrop.sprite.type, playerCards.length*100 + 600, 100))
+            playerCards.push(new PlayerCard(airdrop.type, playerCards.length*100 + 600, 100))
             airdrop.sprite.remove();
             airdrops.splice(airdrops.indexOf(airdrop), 1)
 
@@ -143,6 +147,28 @@ function draw() {
     clientplayer.sprite.draw();
     ourMap.draw();
 
+    for(let i = 0; i < playerCards.length; i++){
+        playerCards[i].draw();
+       
+        if(frameCount - lastClickFrame > 10 && playerCards[i].isClicked()){
+            if(isCardSelected == false){
+                selectedCardType = playerCards[i].type
+                selectedCardIndex = i
+                isCardSelected = true;
+            } else {
+                selectedCardType = -1
+                selectedCardIndex = -1
+                isCardSelected = false;
+            }
+
+            lastClickFrame = frameCount
+           
+        }
+    }
+
+   
+
+
     // check for hovering
     // TODO: Add keybind that triggers this, or this should only trigger when a card is selected to be used
     // right now empty spaces below ground level are highlighted BUT this should not be an issue because we will never have empty tiles
@@ -165,17 +191,26 @@ function draw() {
                 mouse.x > 0 &&
                 mouse.x < width &&
                 mouse.y > 0 &&
-                mouse.y < height
+                mouse.y < height &&
+                isCardSelected
             ) {
+                let isValid = ourMap.checkValidPlacement(selectedCardType, i, j)
                 push();
-                stroke("yellow");
+                if(isValid){
+                    stroke("yellow")
+                } else {
+                    stroke("red")
+                }
+                //stroke("yellow");
                 strokeWeight(5);
                 noFill();
                 rect(posx - 100, posy - ourMap.bricksArr[i][j][0].height / 2, 200, 200)
                 pop();
                 if (mouseIsPressed) {
                     console.log("changing map")
-                    ourMap.updateMap(i, j, Math.floor(Math.random()*13)+1)
+                    ourMap.updateMap(i, j, selectedCardType)
+                    playerCards[selectedCardIndex].sprite.remove()
+                    playerCards.splice(selectedCardIndex, 1)
                     socket.emit("sendMapUpdate", ourMap.mapArr)
                 }
             }

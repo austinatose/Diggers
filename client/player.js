@@ -47,6 +47,7 @@ class PlayerCharacter {
         for (let component of brick) {
           if (this.groundSensor.overlaps(component)) {
             this.isFalling = false;
+            this.sprite.vel.y = 0;
           }
         }
       }

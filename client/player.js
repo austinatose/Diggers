@@ -12,12 +12,15 @@ class PlayerCharacter {
     this.sprite.ani.scale = 0.3
     this.cards = [];
     this.lastSpawn = -60;
+    this.isFalling = false
   }
 
   takeInput() {
     const SPEED = 10;
     if (kb.pressing(" ")) {
-      this.sprite.pos.y -= 20;
+      if (!this.isFalling) {
+	      this.sprite.vel.y -= 10;
+      }
     }
     if (kb.pressing("a")) {
       this.sprite.pos.x -= SPEED;

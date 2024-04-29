@@ -174,7 +174,7 @@ io.on("connection", socket => {
       }
     }
     for (let c of client.room.clients) {
-      client.socket.emit("deleteAirdrop", airdropID);
+      c.socket.emit("deleteAirdrop", airdropID);
     }
   })
 });
@@ -183,8 +183,8 @@ io.on("connection", socket => {
 let id = 0;
 function distributeAirdrops() {
   for (let room of rooms) {
+    let newAirdrop = [Math.floor(Math.random()*15)+1, Math.random() * 700, 0, id];
     for (let client of room.clients) {
-      let newAirdrop = [Math.floor(Math.random()*15)+1, Math.random() * 700, 0, id];
       room.activeAirDrops.push(newAirdrop);
       client.socket.emit("newMessage", "Airdrop incoming!");
       client.socket.emit("airdrop", newAirdrop);

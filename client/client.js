@@ -174,15 +174,7 @@ function draw() {
     for (let [id, player] of playerEntities) {
         // console.log(playerEntities);
         if (id !== myID) {
-            player.sprite.draw();
-            fill(255, 255, 255, 255)
-            text(player.name, player.sprite.position.x, player.sprite.position.y - 100)
-            if(frameCount - clientplayer.freezeFrame <= 600){
-                fill(0, 100, 255, 100)
-                rect(player.sprite.position.x - 50, player.sprite.position.y - 80, 100, 160)
-               
-            }
-            
+            player.draw();
         }
         
     }
@@ -190,14 +182,7 @@ function draw() {
 
     // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
     clientplayer.sprite.x = constrain(clientplayer.sprite.x, 0, width);
-    clientplayer.sprite.draw();
-    fill(255, 255, 255, 255)
-    text(clientplayer.name, clientplayer.sprite.position.x, clientplayer.sprite.position.y - 100)
-    if(clientplayer.maxSpeed == 0){
-        fill(0, 100, 255, 100)
-        rect(clientplayer.sprite.position.x - 50, clientplayer.sprite.position.y - 80, 100, 160)
-       
-    }
+    clientplayer.draw();
     ourMap.draw();
 
     // check for hovering

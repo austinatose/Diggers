@@ -11,6 +11,7 @@ window.onload = () => {
     const join_option_input = prompt('Select: "CREATE" or "JOIN"', "CREATE");
     if (join_option_input === "CREATE") {
         const temp_name = prompt("Enter Name");
+        name = temp_name;
         socket.emit("setName", temp_name);
         socket.emit("createRoom");
         console.log("here")
@@ -105,7 +106,7 @@ function setup() {
     // createCanvas(1400, 800, WEBGL); // idk why it breaks when WEBGL is on
 
     //texture(p1);
-    clientplayer = new PlayerCharacter(300, 300, "YOU");
+    clientplayer = new PlayerCharacter(300, 300, name);
 
 }
 

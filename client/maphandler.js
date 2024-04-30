@@ -140,6 +140,8 @@ class MapDS {
             this.mapArr[x + 0][y + 0] = '1'
             this.mapArr[x + 0][y + 1] = '1'
             this.mapArr[x + 0][y + 2] = '1'
+        } else if (card_no == 15){
+            this.mapArr[x + 0][y + 0] = '0';
         }
     }
 

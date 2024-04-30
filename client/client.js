@@ -112,6 +112,87 @@ socket.on("loseMessage", () => {
     wincon = false;
 })
 
+function drawRect(posx, posy){
+    rect(posx * 200, 400 + posy * 200, 200, 200)
+}
+
+function drawGuide(x, y, type){
+    if(type == 1){
+        drawRect(x + 0, y + 0)
+        drawRect(x + 0, y + 1)
+        drawRect(x + 0, y + 2)
+        drawRect(x - 1, y + 2)
+        
+    } else if(type == 2){
+        drawRect(x + 0, y + 0)
+        drawRect(x + 0, y + 1)
+        drawRect(x + 0, y + 2)
+        drawRect(x + 1, y + 2)
+        
+    } else if(type == 3){
+        drawRect(x + 0, y + 0)
+        drawRect(x + 1, y + 0)
+        drawRect(x + 1, y + 1)
+        drawRect(x + 2, y + 1)
+        
+    } else if(type == 4){
+        drawRect(x + 0, y + 0)
+        drawRect(x - 1, y + 0)
+        drawRect(x - 1, y + 1)
+        drawRect(x - 2, y + 1)
+        
+    } else if(type == 5){
+        drawRect(x + 0, y + 0)
+        drawRect(x - 1, y + 0)
+        drawRect(x - 1, y + 1)
+        drawRect(x - 2, y + 1)
+        drawRect(x - 2, y + 2)
+        
+    } else if(type == 6){
+        drawRect(x + 0, y + 0)
+        drawRect(x + 1, y + 0)
+        drawRect(x + 1, y + 1)
+        drawRect(x + 2, y + 1)
+        drawRect(x + 2, y + 2)
+        
+    } else if(type == 7){
+        drawRect(x + 0, y + 0)
+        drawRect(x + 0, y + 1)
+        drawRect(x + 1, y + 1)
+        drawRect(x + 2, y + 1)
+        drawRect(x + 2, y + 2)
+        
+    } else if(type == 8){
+        drawRect(x + 0, y + 0)
+        drawRect(x + 0, y + 1)
+        drawRect(x - 1, y + 1)
+        drawRect(x - 2, y + 1)
+        drawRect(x - 2, y + 2)
+        
+    } else if(type == 9){
+        drawRect(x + 0, y + 0)
+        drawRect(x + 1, y + 0)
+        drawRect(x - 1, y + 0)
+        
+    } else if(type == 10){
+        drawRect(x + 0, y + 0)
+        drawRect(x + 1, y + 0)
+        
+    } else if(type == 11){
+        drawRect(x + 0, y + 0)
+        
+    } else if(type == 12){
+        drawRect(x + 0, y + 0)
+        drawRect(x + 0, y + 1)
+        
+    } else if(type == 13){
+        drawRect(x + 0, y + 0)
+        drawRect(x + 0, y + 1)
+        drawRect(x + 0, y + 2)
+        
+    } 
+}
+
 
 function preload(){
     titleImg = loadImage('assets/title.png')
@@ -196,16 +277,7 @@ function draw() {
 
         if (playerCards.length <= 3 && clientplayer.sprite.overlaps(airdrop.sprite)) {
             console.log("airdrop collected")
-            if (airdrop.type == 14) {
-                console.log("SPEEEEEEEEEEEED")
-                clientplayer.maxSpeed = 20
-                clientplayer.speedFrame = frameCount
-            } else if (airdrop.type == 16) {
-                console.log("FREEEEEEEZE others")
-                socket.emit("freezeCollected", [])
-            } else {
-                playerCards.push(new PlayerCard(airdrop.type, playerCards.length * 100 + 900, 100))
-            }
+            playerCards.push(new PlayerCard(airdrop.type, playerCards.length * 100 + 900, 100))
 
             socket.emit("airdropCollected", airdrop.id);
             airdrop.sprite.remove();
@@ -300,29 +372,62 @@ function draw() {
                 isCardSelected &&
                 frameCount - lastClickFrame > 20
             ) {
-                let isValid = ourMap.checkValidPlacement(selectedCardType, i, j)
-                push();
-                if (isValid) {
-                    stroke("yellow")
-                } else {
-                    stroke("red")
+                let isValid = false
+                if(selectedCardType <= 13){
+                    isValid = ourMap.checkValidPlacement(selectedCardType, i, j)
+                    push();
+                    if (isValid) {
+                        stroke("yellow")
+                    } else {
+                        stroke("red")
+                    }
+                    //stroke("yellow");
+                    strokeWeight(5);
+                    noFill();
+                    // rect(posx - 100, posy - 100, 200, 200)
+                    drawGuide(i, j, selectedCardType)
+                    pop();
                 }
-                //stroke("yellow");
-                strokeWeight(5);
-                noFill();
-                rect(posx - 100, posy - ourMap.bricksArr[i][j][0].height / 2, 200, 200)
-                pop();
-                if (mouseIsPressed && isValid) {
-                    console.log("changing map")
-                    ourMap.updateMap(i, j, selectedCardType)
-                    playerCards[selectedCardIndex].sprite.remove()
-                    playerCards.splice(selectedCardIndex, 1)
-                    selectedCardType = -1
-                    selectedCardIndex = -1
-                    isCardSelected = false;
-                    socket.emit("sendMapUpdate", ourMap.mapArr)
+                
+                if (mouseIsPressed) {
+                    if(selectedCardType == 14){
+                        console.log("SPEEEEEEEEEEEED")
+                        clientplayer.maxSpeed = 20
+                        clientplayer.speedFrame = frameCount
 
-                    console.log("PLAYER CARDS ARE:", playerCards)
+                        playerCards[selectedCardIndex].sprite.remove()
+                        playerCards.splice(selectedCardIndex, 1)
+                        selectedCardType = -1
+                        selectedCardIndex = -1
+                        isCardSelected = false;
+                        console.log("PLAYER CARDS ARE:", playerCards)
+
+                    } else if (selectedCardType == 16){
+
+                        console.log("FREEEEEEEZE others")
+                        socket.emit("freezeCollected", [])
+
+                        playerCards[selectedCardIndex].sprite.remove()
+                        playerCards.splice(selectedCardIndex, 1)
+                        selectedCardType = -1
+                        selectedCardIndex = -1
+                        isCardSelected = false;
+                        console.log("PLAYER CARDS ARE:", playerCards)
+
+                    } else if (isValid){
+                        console.log("changing map")
+                        ourMap.updateMap(i, j, selectedCardType)
+                        playerCards[selectedCardIndex].sprite.remove()
+                        playerCards.splice(selectedCardIndex, 1)
+                        selectedCardType = -1
+                        selectedCardIndex = -1
+                        isCardSelected = false;
+                        socket.emit("sendMapUpdate", ourMap.mapArr)
+
+                        console.log("PLAYER CARDS ARE:", playerCards)
+                        
+                    }
+                    
                 }
             }
         }
@@ -343,6 +448,33 @@ function draw() {
                 selectedCardType = playerCards[i].type
                 selectedCardIndex = i
                 isCardSelected = true;
+                if(selectedCardType == 14){
+                    console.log("SPEEEEEEEEEEEED")
+                    clientplayer.maxSpeed = 20
+                    clientplayer.speedFrame = frameCount
+
+                    playerCards[selectedCardIndex].sprite.remove()
+                    playerCards.splice(selectedCardIndex, 1)
+                    selectedCardType = -1
+                    selectedCardIndex = -1
+                    isCardSelected = false;
+                    console.log("PLAYER CARDS ARE:", playerCards)
+
+                } else if (selectedCardType == 16){
+
+                    console.log("FREEEEEEEZE others")
+                    socket.emit("freezeCollected", [])
+
+                    playerCards[selectedCardIndex].sprite.remove()
+                    playerCards.splice(selectedCardIndex, 1)
+                    selectedCardType = -1
+                    selectedCardIndex = -1
+                    isCardSelected = false;
+                    console.log("PLAYER CARDS ARE:", playerCards)
+
+                }
+
+
             } else {
                 selectedCardType = -1
                 selectedCardIndex = -1

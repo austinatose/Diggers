@@ -1,6 +1,6 @@
 let currentRoomCode = null;
 let playerEntities = new Map();
-let name = "Anonymous";
+let playerName = "Anonymous";
 let myID = null;
 let wincon = null;
 
@@ -11,19 +11,20 @@ window.onload = () => {
     const join_option_input = prompt('Select: "CREATE" or "JOIN"', "CREATE");
     if (join_option_input === "CREATE") {
         const temp_name = prompt("Enter Name");
+        playerName = temp_name;
         socket.emit("setName", temp_name);
         socket.emit("createRoom");
         console.log("here")
     } else if (join_option_input === "JOIN") {
         const room_code_input = prompt("Enter Room Code");
         const temp_name = prompt("Enter Name");
+        playerName = temp_name;
         socket.emit("setName", temp_name);
         socket.emit("joinRoom", room_code_input);
         console.log("here2")
     } else {
         window.onload();
     }
-    name = temp_name;
 };
 
 socket.on("setRoomCode", (roomCode) => {
@@ -54,10 +55,10 @@ let lastClickFrame = 0;
 // }
 
 socket.on("mapUpdate", (receivedMap) => {
-  console.log("mapUpdate", receivedMap);
-  ourMap.mapArr = receivedMap;
-  ourMap.clearMap();
-  ourMap.init();
+    console.log("mapUpdate", receivedMap);
+    ourMap.mapArr = receivedMap;
+    ourMap.clearMap();
+    ourMap.init();
 });
 
 socket.on("cardUpdate", (receivedCards) => {
@@ -106,7 +107,7 @@ function setup() {
     // createCanvas(1400, 800, WEBGL); // idk why it breaks when WEBGL is on
 
     //texture(p1);
-    clientplayer = new PlayerCharacter(300, 300, name);
+    clientplayer = new PlayerCharacter(300, 300, playerName);
 
 }
 
@@ -143,7 +144,7 @@ function draw() {
         clientplayer.sprite.y = 0;
     }
 
-    if(frameCount - clientplayer.speedFrame > 600){
+    if (frameCount - clientplayer.speedFrame > 600) {
         clientplayer.maxSpeed = 10;
     }
 
@@ -152,19 +153,19 @@ function draw() {
         airdrop.draw();
         if (playerCards.length <= 3 && clientplayer.sprite.overlaps(airdrop.sprite)) {
             console.log("airdrop collected")
-            if(airdrop.type == 14){
+            if (airdrop.type == 14) {
                 console.log("SPEEEEEEEEEEEED")
                 clientplayer.maxSpeed = 20
                 clientplayer.speedFrame = frameCount
-            } else if (airdrop.type == 16){
+            } else if (airdrop.type == 16) {
                 console.log("FREEEEEEEZE others")
                 socket.emit("freezeCollected", [])
             } else {
-                playerCards.push(new PlayerCard(airdrop.type, playerCards.length*100 + 900, 100))
+                playerCards.push(new PlayerCard(airdrop.type, playerCards.length * 100 + 900, 100))
             }
-            
+
             socket.emit("airdropCollected", airdrop.id);
-            airdrop.sprite.remove();   
+            airdrop.sprite.remove();
             airdrops.splice(airdrops.indexOf(airdrop), 1)
 
             // more logic to deal with adding cards to the player's hand goes here
@@ -177,7 +178,7 @@ function draw() {
         if (id !== myID) {
             player.draw();
         }
-        
+
     }
 
 
@@ -215,7 +216,7 @@ function draw() {
             ) {
                 let isValid = ourMap.checkValidPlacement(selectedCardType, i, j)
                 push();
-                if(isValid){
+                if (isValid) {
                     stroke("yellow")
                 } else {
                     stroke("red")
@@ -223,7 +224,7 @@ function draw() {
                 //stroke("yellow");
                 strokeWeight(5);
                 noFill();
-                rect(posx - 100, posy - 100/ 2, 200, 200)
+                rect(posx - 100, posy - 100 / 2, 200, 200)
                 pop();
                 if (mouseIsPressed && isValid) {
                     console.log("changing map")
@@ -246,7 +247,7 @@ function draw() {
                 ourMap.mapArr[i][j] == 0 && // only if it is a rock, but if we decide to allow players to replace tunnels, we can just remove this line
                 mouse.x < posx + 100 &&
                 mouse.x > posx - 100 &&
-                mouse.y - mod < posy + 200/ 2 &&
+                mouse.y - mod < posy + 200 / 2 &&
                 mouse.y - mod > posy - 200 / 2 &&
                 mouse.x > 0 &&
                 mouse.x < width &&
@@ -256,7 +257,7 @@ function draw() {
             ) {
                 let isValid = ourMap.checkValidPlacement(selectedCardType, i, j)
                 push();
-                if(isValid){
+                if (isValid) {
                     stroke("yellow")
                 } else {
                     stroke("red")
@@ -286,14 +287,14 @@ function draw() {
         translate(0, -(height / 2 - clientplayer.sprite.y));
     }
 
-    for(let i = 0; i < playerCards.length; i++){
+    for (let i = 0; i < playerCards.length; i++) {
         playerCards[i].draw();
         playerCards[i].posUpdate(i);
 
-       
-        if(frameCount - lastClickFrame > 10 && playerCards[i].isClicked()){
-            
-            if(isCardSelected == false){
+
+        if (frameCount - lastClickFrame > 10 && playerCards[i].isClicked()) {
+
+            if (isCardSelected == false) {
                 selectedCardType = playerCards[i].type
                 selectedCardIndex = i
                 isCardSelected = true;
@@ -304,21 +305,21 @@ function draw() {
             }
 
             lastClickFrame = frameCount
-           
+
         }
 
-        if(i == selectedCardIndex){
+        if (i == selectedCardIndex) {
             strokeWeight(5)
             stroke('yellow')
             noFill()
-            rect(i*100 + 900 - 36, 100 - 51, 72, 102)
+            rect(i * 100 + 900 - 36, 100 - 51, 72, 102)
             strokeWeight(0)
             stroke('black')
         }
     }
 
     fill(0, 255, 255, 255)
-    if(clientplayer.maxSpeed != 10){
+    if (clientplayer.maxSpeed != 10) {
         rect(300, 20, 600 - (frameCount - clientplayer.speedFrame), 50)
     }
 
@@ -330,7 +331,7 @@ function draw() {
         }
     }
 
-    if (kb.pressing("i"))  { // insta win
+    if (kb.pressing("i")) { // insta win
         socket.emit("playerWin")
     }
 
@@ -345,14 +346,14 @@ socket.on("newMessage", (message) => { // new announcement to players
 
 });
 
-socket.on("playerDataUpdate", (id, playerData, name) => {
+socket.on("playerDataUpdate", (id, playerData, playerName) => {
     //console.log("playerDataUpdate", id, playerData);
     // console.log(playerData[0])
     if (playerEntities.has(id) && id !== myID) {
         playerEntities.get(id).sprite.pos.x = playerData[0].x;
         playerEntities.get(id).sprite.pos.y = playerData[0].y;
     } else if (id !== myID) {
-        let newPlayer = new OtherCharacter(playerData[0].x, playerData[0].y, name);
+        let newPlayer = new OtherCharacter(playerData[0].x, playerData[0].y, playerName);
         playerEntities.set(id, newPlayer);
     }
 })

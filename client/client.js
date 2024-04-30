@@ -177,7 +177,7 @@ function draw() {
         fill(0, 100, 255, 100)
         rect(clientplayer.sprite.position.x - 50, clientplayer.sprite.position.y - 80, 100, 160)
        
-    }ad
+    }
     ourMap.draw();
 
     // check for hovering

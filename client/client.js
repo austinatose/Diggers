@@ -82,7 +82,7 @@ socket.on("deleteAirdrop", (id) => {
 })
 
 function setup() {
-    new Canvas(1400, 1000);
+    new Canvas(1400, 800);
 
     console.log("creating map");
 
@@ -95,12 +95,13 @@ function setup() {
 }
 
 function draw() {
-    background(200);
+    background(51, 36, 1);
 
     // announcements and text
-    fill(0);
+    fill(255);
     textSize(20);
     text("Room Code: " + currentRoomCode, 20, 20);
+    fill(0)
 
     // player updates
     clientplayer.takeInput(ourMap.bricksArr);
@@ -123,13 +124,24 @@ function draw() {
         clientplayer.sprite.y = 0;
     }
 
+    
+
+    if(frameCount - clientplayer.speedFrame > 600){
+        clientplayer.maxSpeed = 10;
+    }
+
     // airdrop check
     for (let airdrop of airdrops) {
         airdrop.draw();
         if (playerCards.length <= 3 && clientplayer.sprite.overlaps(airdrop.sprite)) {
             console.log("airdrop collected")
             if(airdrop.type == 14){
-                this.maxSpeed = 20
+                console.log("SPEEEEEEEEEEEED")
+                clientplayer.maxSpeed = 20
+                clientplayer.speedFrame = frameCount
+            } else if (airdrop.type == 16){
+                console.log("FREEEEEEEZE others")
+                socket.emit("freezeCollected", [])
             } else {
                 playerCards.push(new PlayerCard(airdrop.type, playerCards.length*100 + 900, 100))
             }
@@ -147,13 +159,25 @@ function draw() {
         // console.log(playerEntities);
         if (id !== myID) {
             player.sprite.draw();
+            if(frameCount - clientplayer.freezeFrame <= 600){
+                fill(0, 100, 255, 100)
+                rect(player.sprite.position.x - 50, player.sprite.position.y - 80, 100, 160)
+               
+            }
+            
         }
+        
     }
 
 
     // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
     clientplayer.sprite.x = constrain(clientplayer.sprite.x, 0, width);
     clientplayer.sprite.draw();
+    if(clientplayer.maxSpeed == 0){
+        fill(0, 100, 255, 100)
+        rect(clientplayer.sprite.position.x - 50, clientplayer.sprite.position.y - 80, 100, 160)
+       
+    }ad
     ourMap.draw();
 
     // check for hovering
@@ -247,6 +271,11 @@ function draw() {
         }
     }
 
+    fill(0, 255, 255, 255)
+    if(clientplayer.maxSpeed != 10){
+        rect(300, 20, 600 - (frameCount - clientplayer.speedFrame), 50)
+    }
+
 
 
     // update server
@@ -271,5 +300,13 @@ socket.on("playerDataUpdate", (id, playerData) => {
         playerEntities.set(id, newPlayer);
     }
 })
+
+socket.on("freezeGive", (id) => {
+    clientplayer.maxSpeed = 0;
+    clientplayer.speedFrame = frameCount
+    clientplayer.freezeFrame = frameCount
+})
+
+
 
 

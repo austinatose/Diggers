@@ -7,9 +7,9 @@ class PlayerCharacter {
     this.sprite.x = x;
     this.sprite.y = y;
     this.sprite.mass = 0;
-    // this.avatar_id = Math.floor(Math.random()*2)+1
-    // this.sprite.img = `assets/player${this.avatar_id}.png`
-    this.sprite.img = `assets/player1.png`
+    this.avatar_id = Math.floor(Math.random()*4)+1
+    this.sprite.img = `assets/player${this.avatar_id}.png`
+    //this.sprite.img = `assets/player1.png`
     this.sprite.ani.scale = 0.3
     this.sprite.bounciness = 0;
     this.lastSpawn = -60;
@@ -76,6 +76,6 @@ class OtherCharacter {
     this.sprite.mass = 0;
     this.maxSpeed = 10;
     // this.avatar_id = Math.floor(Math.random()*3)+1
-    //this.sprite.img = `assets/player2.png`
+    this.sprite.img = `assets/player2.png`
   }
 }

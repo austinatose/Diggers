@@ -81,6 +81,18 @@ socket.on("deleteAirdrop", (id) => {
     }
 })
 
+socket.on("winMessage", () => {
+    textSize(50);
+    text("YOU WIN", 700, 400);
+    noLoop();
+})
+
+socket.on("loseMessage", () => {
+    textSize(50);
+    text("YOU LOSE", 700, 400);
+    noLoop();
+})
+
 function setup() {
     new Canvas(1400, 800);
 
@@ -258,8 +270,6 @@ function draw() {
             lastClickFrame = frameCount
            
         }
-        
-        
 
         if(i == selectedCardIndex){
             strokeWeight(5)
@@ -276,7 +286,13 @@ function draw() {
         rect(300, 20, 600 - (frameCount - clientplayer.speedFrame), 50)
     }
 
-
+    // win check
+    let candidates = [1, 3, 5]
+    for (let candidate of candidates) {
+        if (ourMap.mapArr[candidate][13] == "999" && clientplayer.sprite.collides(ourMap.bricksArr[candidate][13][0])) {
+            socket.emit("playerWin")
+        }
+    }
 
     // update server
     socket.emit("sendPlayerDataUpdate", [createVector(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y)]);
@@ -306,7 +322,3 @@ socket.on("freezeGive", (id) => {
     clientplayer.speedFrame = frameCount
     clientplayer.freezeFrame = frameCount
 })
-
-
-
-

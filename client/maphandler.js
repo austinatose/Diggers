@@ -33,18 +33,18 @@ class MapDS {
             for (let j = 0; j < 15; j++) {
                 if (this.mapArr[i][j] === "99") { // fake win
                     console.log("win door detected")
-                    let brick = new Sprite(i * 200 + 100, 500 + j * 200);
+                    let brick = new Sprite(i * 200 + 100, 525 + j * 200);
                     brick.color = "yellow";
-                    brick.height = 50;
-                    brick.width = 50;
+                    brick.height = 150;
+                    brick.width = 75;
                     brick.collider = 'k';
                     this.bricksArr[i].push([brick]);
                 } else if (this.mapArr[i][j] === "999") { // real win
                     console.log("real win door detected")
-                    let brick = new Sprite(i * 200 + 100, 500 + j * 200);
+                    let brick = new Sprite(i * 200 + 100, 525 + j * 200);
                     brick.color = "yellow";
-                    brick.height = 50;
-                    brick.width = 50;
+                    brick.height = 150;
+                    brick.width = 75;
                     brick.collider = 'k';
                     this.bricksArr[i].push([brick]);
                 }else if (this.mapArr[i][j] === "0") { //Uncovered Rock

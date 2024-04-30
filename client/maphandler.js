@@ -31,8 +31,16 @@ class MapDS {
         for (let i = 0; i < 7; i++) {
             this.bricksArr.push([]);
             for (let j = 0; j < 15; j++) {
-                if (this.mapArr[i][j] === "99") { // win
+                if (this.mapArr[i][j] === "99") { // fake win
                     console.log("win door detected")
+                    let brick = new Sprite(i * 200 + 100, 500 + j * 200);
+                    brick.color = "yellow";
+                    brick.height = 50;
+                    brick.width = 50;
+                    brick.collider = 'k';
+                    this.bricksArr[i].push([brick]);
+                } else if (this.mapArr[i][j] === "999") { // real win
+                    console.log("real win door detected")
                     let brick = new Sprite(i * 200 + 100, 500 + j * 200);
                     brick.color = "yellow";
                     brick.height = 50;

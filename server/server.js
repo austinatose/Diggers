@@ -41,15 +41,15 @@ class Room {
 
   generateNewMap() {
     this.map = [];
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 7; i++) {
       this.map.push([]);
-      for (let j = 0; j < 7; j++) {
+      for (let j = 0; j < 15; j++) {
         this.map[i].push("0");
       }
     }
-    // this.map[0][0] = "1";
-    // this.map[0][1] = "3";
-    // this.map[1][1] = "2";
+    this.map[1][14] = "99"
+    this.map[3][14] = "99"
+    this.map[5][14] = "99"
     // this.map[2][0] = "1"; // for testing
     // this.map[2][1] = "1"; // for testing
     // this.map[2][2] = "3"; // for testing
@@ -122,6 +122,16 @@ io.on("connection", socket => {
       socket.emit("newMessage", "Room not found"); 
     }
   });
+
+  socket.on("playerWin", () => {
+    if (!client.room) return;
+    socket.emit("winMessage");
+    for (let c of client.room.clients) {
+      if (c !== client) {
+        c.socket.emit("loseMessage");
+      }
+    }
+  })
 
   socket.on("disconnect", () => {
     if (client.room) {

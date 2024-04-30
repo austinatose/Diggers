@@ -5,8 +5,8 @@ class MapDS {
     }
 
     clearMap() {
-        for (let i = 0; i < 15; i++) {
-            for (let j = 0; j < 7; j++) {
+        for (let i = 0; i < 7; i++) {
+            for (let j = 0; j < 15; j++) {
                 if (this.bricksArr[i] != undefined) {
                     for (let k = 0; k < this.bricksArr[i][j].length; k++)
                         this.bricksArr[i][j][k].remove()
@@ -19,20 +19,27 @@ class MapDS {
 
     init() {
         console.log("init started");
-        // for (let i = 0; i < 15; i++) {
+        // for (let i = 0; i < 7; i++) {
         //   this.mapArr.push([]);
-        //   for (let j = 0; j < 7; j++) {
+        //   for (let j = 0; j < 15; j++) {
         //     this.mapArr[i].push("0");
         //   }
         // }
         // this.mapArr[14][3] = "1";
         console.log(this.mapArr);
         //this.clearMap()
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 7; i++) {
             this.bricksArr.push([]);
-            for (let j = 0; j < 7; j++) {
-
-                if (this.mapArr[i][j] === "0") { //Uncovered Rock
+            for (let j = 0; j < 15; j++) {
+                if (this.mapArr[i][j] === "99") { // win
+                    console.log("win door detected")
+                    let brick = new Sprite(i * 200 + 100, 500 + j * 200);
+                    brick.color = "yellow";
+                    brick.height = 50;
+                    brick.width = 50;
+                    brick.collider = 'k';
+                    this.bricksArr[i].push([brick]);
+                }else if (this.mapArr[i][j] === "0") { //Uncovered Rock
                     let brick = new Sprite(i * 200 + 100, 500 + j * 200);
                     brick.color = "black";
                     brick.height = 200;
@@ -116,8 +123,8 @@ class MapDS {
     }
 
     draw() {
-        for (let i = 0; i < 15; i++) {
-            for (let j = 0; j < 7; j++) {
+        for (let i = 0; i < 7; i++) {
+            for (let j = 0; j < 15; j++) {
                 if (this.bricksArr[i] != undefined && this.bricksArr[i][j]) {
                     for (let brickcomponent of this.bricksArr[i][j]) {
                         // if(i == 2 && j == 0){
@@ -192,9 +199,6 @@ class MapDS {
             this.mapArr[x + 0][y + 1] = '1'
             this.mapArr[x + 0][y + 2] = '1'
         }
-
-
-
     }
 
     checkValidPlacement(type, x, y){

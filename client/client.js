@@ -120,6 +120,9 @@ function draw() {
     if (clientplayer.sprite.y > height / 2) {
         translate(0, height / 2 - clientplayer.sprite.y);
     }
+    if (clientplayer.sprite.y > 4000) {
+        clientplayer.sprite.y = 0;
+    }
 
     
 
@@ -177,21 +180,15 @@ function draw() {
     }ad
     ourMap.draw();
 
-    
-
-    
-
-   
-
-
     // check for hovering
     // TODO: Add keybind that triggers this, or this should only trigger when a card is selected to be used
     // right now empty spaces below ground level are highlighted BUT this should not be an issue because we will never have empty tiles
 
-    for (let i = 0; i < 15; i++) {
-        for (let j = 0; j < 7; j++) {
+    for (let i = 0; i < 7; i++) {
+        for (let j = 0; j < 15; j++) {
             let posx = i * 200 + 100
             let posy = 500 + j * 200
+            text("i: " + i + " j: " + j, posx, posy) // debug
             // if(ourMap.bricksArr[i] != undefined && ourMap.bricksArr[i][j] != undefined && ourMap.bricksArr[i][j][0].mouse.hovering()) { // wait this may not work because translation is funny
             let mod = (clientplayer.sprite.y >= height / 2) ? height / 2 - clientplayer.sprite.y : 0;
 

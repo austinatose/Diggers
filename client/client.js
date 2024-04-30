@@ -2,6 +2,7 @@ let currentRoomCode = null;
 let playerEntities = new Map();
 let name = "Anonymous";
 let myID = null;
+let wincon = null;
 
 // const socket = io.connect("ws://192.168.1.81:8001");
 const socket = io.connect("ws://localhost:8001");
@@ -82,15 +83,17 @@ socket.on("deleteAirdrop", (id) => {
 })
 
 socket.on("winMessage", () => {
+    console.log("YOU WIN")
     textSize(50);
     text("YOU WIN", 700, 400);
-    noLoop();
+    wincon = true;
 })
 
 socket.on("loseMessage", () => {
+    console.log("YOU LOSE")
     textSize(50);
     text("YOU LOSE", 700, 400);
-    noLoop();
+    wincon = false;
 })
 
 function setup() {
@@ -103,10 +106,14 @@ function setup() {
 
     //texture(p1);
     clientplayer = new PlayerCharacter(300, 300);
-
 }
 
 function draw() {
+
+    if (wincon != null) {
+        noLoop();
+    }
+
     background(51, 36, 1);
 
     // announcements and text
@@ -127,16 +134,12 @@ function draw() {
     //     }
     // }
 
-    
-
     if (clientplayer.sprite.y > height / 2) {
         translate(0, height / 2 - clientplayer.sprite.y);
     }
     if (clientplayer.sprite.y > 4000) {
         clientplayer.sprite.y = 0;
     }
-
-    
 
     if(frameCount - clientplayer.speedFrame > 600){
         clientplayer.maxSpeed = 10;
@@ -200,7 +203,7 @@ function draw() {
         for (let j = 0; j < 15; j++) {
             let posx = i * 200 + 100
             let posy = 500 + j * 200
-            text("i: " + i + " j: " + j, posx, posy) // debug
+            // text("i: " + i + " j: " + j, posx, posy) // debug
             // if(ourMap.bricksArr[i] != undefined && ourMap.bricksArr[i][j] != undefined && ourMap.bricksArr[i][j][0].mouse.hovering()) { // wait this may not work because translation is funny
             let mod = (clientplayer.sprite.y >= height / 2) ? height / 2 - clientplayer.sprite.y : 0;
 
@@ -292,6 +295,10 @@ function draw() {
         if (ourMap.mapArr[candidate][13] == "999" && clientplayer.sprite.collides(ourMap.bricksArr[candidate][13][0])) {
             socket.emit("playerWin")
         }
+    }
+
+    if (kb.pressing("i"))  { // insta win
+        socket.emit("playerWin")
     }
 
     // update server

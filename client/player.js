@@ -41,8 +41,8 @@ class PlayerCharacter {
       this.sprite.vel.x = this.maxSpeed;
 
     // hax
-    } else if (kb.pressing("s")) {
-      this.sprite.y += 100;
+    // } else if (kb.pressing("s")) {
+    //   this.sprite.y += 100;
     } else {
       this.sprite.vel.x = 0;
     }

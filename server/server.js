@@ -163,6 +163,14 @@ io.on("connection", socket => {
     }
   })
 
+  socket.on("freezeCollected", (cli) => {
+    if(!client.room) return;
+    for(let c of client.room.clients){
+        if (c === client) continue;
+        c.socket.emit("freezeGive", client.id)
+    } 
+  })
+
   socket.on("airdropCollected", (airdropID) => {
     if(!client.room) return;
     console.log("airdropCollected", airdropID);
@@ -183,7 +191,8 @@ io.on("connection", socket => {
 let id = 0;
 function distributeAirdrops() {
   for (let room of rooms) {
-    let newAirdrop = [Math.floor(Math.random()*15)+1, Math.random() * 700, 0, id];
+    let newAirdrop = [Math.floor(Math.random()*16)+1, Math.random() * 700, 0, id];
+    //let newAirdrop = [16, Math.random() * 700, 0, id];
     for (let client of room.clients) {
       room.activeAirDrops.push(newAirdrop);
       client.socket.emit("newMessage", "Airdrop incoming!");

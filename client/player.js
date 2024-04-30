@@ -15,7 +15,8 @@ class PlayerCharacter {
     this.isFalling = false
     this.sprite.friction = 0;
     this.maxSpeed = 10
-
+    this.freezeFrame = -600; //the frame where the plaer collected the freeze power up
+    this.speedFrame = 0 //last time the speed boost was obtained
     this.groundSensor = new Sprite(x, y + 30);
     this.groundSensor.collider = "none";
     this.groundSensor.width = 5;
@@ -67,7 +68,8 @@ class OtherCharacter {
     this.sprite.position.x = x;
     this.sprite.position.y = y;
     this.sprite.mass = 0;
+    this.maxSpeed = 10;
     // this.avatar_id = Math.floor(Math.random()*3)+1
-    // this.sprite.img = `assets/player1.png`
+    //this.sprite.img = `assets/player2.png`
   }
 }

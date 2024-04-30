@@ -212,7 +212,8 @@ function draw() {
                 mouse.y > 0 &&
                 mouse.y < height &&
                 isCardSelected &&
-                selectedCardType == 15
+                selectedCardType == 15 &&
+                frameCount - lastClickFrame > 20
             ) {
                 let isValid = ourMap.checkValidPlacement(selectedCardType, i, j)
                 push();
@@ -253,7 +254,8 @@ function draw() {
                 mouse.x < width &&
                 mouse.y > 0 &&
                 mouse.y < height &&
-                isCardSelected
+                isCardSelected &&
+                frameCount - lastClickFrame > 20
             ) {
                 let isValid = ourMap.checkValidPlacement(selectedCardType, i, j)
                 push();

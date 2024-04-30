@@ -11,7 +11,6 @@ window.onload = () => {
     const join_option_input = prompt('Select: "CREATE" or "JOIN"', "CREATE");
     if (join_option_input === "CREATE") {
         const temp_name = prompt("Enter Name");
-        name = temp_name;
         socket.emit("setName", temp_name);
         socket.emit("createRoom");
         console.log("here")
@@ -24,6 +23,7 @@ window.onload = () => {
     } else {
         window.onload();
     }
+    name = temp_name;
 };
 
 socket.on("setRoomCode", (roomCode) => {

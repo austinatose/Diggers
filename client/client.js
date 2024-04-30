@@ -250,13 +250,14 @@ function draw() {
             }
 
             if (
+                selectedCardType != 15 &&
                 ourMap.bricksArr[i] != undefined &&
                 ourMap.bricksArr[i][j] != undefined &&
                 ourMap.mapArr[i][j] == 0 && // only if it is a rock, but if we decide to allow players to replace tunnels, we can just remove this line
                 mouse.x < posx + 100 &&
                 mouse.x > posx - 100 &&
-                mouse.y - mod < posy + ourMap.bricksArr[i][j][0].height / 2 &&
-                mouse.y - mod > posy - ourMap.bricksArr[i][j][0].height / 2 &&
+                mouse.y - mod < posy + 200/ 2 &&
+                mouse.y - mod > posy - 200 / 2 &&
                 mouse.x > 0 &&
                 mouse.x < width &&
                 mouse.y > 0 &&

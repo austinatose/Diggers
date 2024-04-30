@@ -33,7 +33,7 @@ class PlayerCharacter {
         return;
     }
     
-    if (kb.pressing(" ")) {
+    if (kb.pressing(" ") && this.maxSpeed != 0) {
       if (!this.isFalling) {
 	      this.sprite.vel.y = -27;
         this.isFalling = true;

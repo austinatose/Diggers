@@ -90,6 +90,7 @@ class OtherCharacter {
     this.maxSpeed = 10;
     // this.avatar_id = Math.floor(Math.random()*3)+1
     this.sprite.img = `assets/player2.png`
+    this.sprite.ani.scale = 0.3
   }
 
   draw() {

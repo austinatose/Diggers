@@ -47,9 +47,14 @@ class Room {
         this.map[i].push("0");
       }
     }
-    this.map[1][14] = "99"
-    this.map[3][14] = "99"
-    this.map[5][14] = "99"
+    let list = [1, 3, 5]
+    let real = list[Math.floor((Math.random()*list.length))];
+    this.map[real][14] = "999"
+    for (let item in list) {
+      if (list[item] !== real) {
+        this.map[list[item]][14] = "99"
+      }
+    }
     // this.map[2][0] = "1"; // for testing
     // this.map[2][1] = "1"; // for testing
     // this.map[2][2] = "3"; // for testing

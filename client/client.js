@@ -195,6 +195,47 @@ function draw() {
             if (
                 ourMap.bricksArr[i] != undefined &&
                 ourMap.bricksArr[i][j] != undefined &&
+                ourMap.mapArr[i][j] != 0 && // only if it is a rock, but if we decide to allow players to replace tunnels, we can just remove this line
+                mouse.x < posx + 100 &&
+                mouse.x > posx - 100 &&
+                mouse.y - mod < posy + ourMap.bricksArr[i][j][0].height / 2 &&
+                mouse.y - mod > posy - ourMap.bricksArr[i][j][0].height / 2 &&
+                mouse.x > 0 &&
+                mouse.x < width &&
+                mouse.y > 0 &&
+                mouse.y < height &&
+                isCardSelected &&
+                selectedCardType == 15
+            ) {
+                let isValid = ourMap.checkValidPlacement(selectedCardType, i, j)
+                push();
+                if(isValid){
+                    stroke("yellow")
+                } else {
+                    stroke("red")
+                }
+                //stroke("yellow");
+                strokeWeight(5);
+                noFill();
+                rect(posx - 100, posy - 100/ 2, 200, 200)
+                pop();
+                if (mouseIsPressed && isValid) {
+                    console.log("changing map")
+                    ourMap.updateMap(i, j, selectedCardType)
+                    playerCards[selectedCardIndex].sprite.remove()
+                    playerCards.splice(selectedCardIndex, 1)
+                    selectedCardType = -1
+                    selectedCardIndex = -1
+                    isCardSelected = false;
+                    socket.emit("sendMapUpdate", ourMap.mapArr)
+
+                    console.log("PLAYER CARDS ARE:", playerCards)
+                }
+            }
+
+            if (
+                ourMap.bricksArr[i] != undefined &&
+                ourMap.bricksArr[i][j] != undefined &&
                 ourMap.mapArr[i][j] == 0 && // only if it is a rock, but if we decide to allow players to replace tunnels, we can just remove this line
                 mouse.x < posx + 100 &&
                 mouse.x > posx - 100 &&

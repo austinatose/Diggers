@@ -207,7 +207,7 @@ let id = 0;
 function distributeAirdrops() {
   for (let room of rooms) {
     let newAirdrop = [Math.floor(Math.random()*16)+1, Math.random() * 700, 0, id];
-    //let newAirdrop = [16, Math.random() * 700, 0, id];
+    //let newAirdrop = [16 - Math.floor(Math.random()*5), Math.random() * 700, 0, id];
     for (let client of room.clients) {
       room.activeAirDrops.push(newAirdrop);
       client.socket.emit("newMessage", "Airdrop incoming!");

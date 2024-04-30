@@ -3,6 +3,7 @@ let playerEntities = new Map();
 let playerName = "Anonymous";
 let myID = null;
 let wincon = null;
+let gameFinished = false;
 
 // const socket = io.connect("ws://192.168.1.81:8001");
 const socket = io.connect("ws://localhost:8001");
@@ -55,6 +56,8 @@ let roomReady = false;
 //   ROCK = loadImage('assets/ROCK.png')    
 // }
 
+let titleImg, winIng, loseImg
+
 socket.on("mapUpdate", (receivedMap) => {
     console.log("mapUpdate", receivedMap);
     ourMap.mapArr = receivedMap;
@@ -87,21 +90,33 @@ socket.on("deleteAirdrop", (id) => {
 
 socket.on("winMessage", () => {
     console.log("YOU WIN")
-    textSize(50);
-    text("YOU WIN", 700, 400);
+    // textSize(50);
+    // text("YOU WIN", 700, 400);
+    fill(0, 0, 0, 255)
+    rect(0, 100, 1400, 300)
+    image(winImg, 400, 0, 500, 500)
+    gameFinished = true;
+    clientplayer.active = false;
     wincon = true;
 })
 
 socket.on("loseMessage", () => {
     console.log("YOU LOSE")
-    textSize(50);
-    text("YOU LOSE", 700, 400);
+    // textSize(50);
+    // text("YOU LOSE", 700, 400);
+    fill(0, 0, 0, 255)
+    rect(0, 100, 1400, 300)
+    image(loseImg, 400, 0, 500, 500)
+    gameFinished = true;
+    clientplayer.active = false;
     wincon = false;
 })
 
-let titleImg
+
 function preload(){
     titleImg = loadImage('assets/title.png')
+    winImg = loadImage('assets/win.png')
+    loseImg = loadImage('assets/lose.png')
 }
 
 function setup() {
@@ -120,6 +135,21 @@ function setup() {
 function draw() {
 
     if (wincon != null) {
+        if(wincon){
+            fill(0, 0, 0, 255)
+            rect(0, 100, 1400, 300)
+            image(winImg, 400, 0, 500, 500)
+            gameFinished = true;
+            clientplayer.active = false;
+        
+        } else {
+            fill(0, 0, 0, 255)
+            rect(0, 100, 1400, 300)
+            image(loseImg, 400, 0, 500, 500)
+            gameFinished = true;
+            clientplayer.active = false;
+            
+        }
         noLoop();
     }
 
@@ -130,7 +160,10 @@ function draw() {
     fill(0)
 
     // player updates
-    clientplayer.takeInput(ourMap.bricksArr);
+    if(!gameFinished){
+        clientplayer.takeInput(ourMap.bricksArr);
+    }
+    
     // if (kb.pressing('c')){
     //     if(frameCount - clientplayer.lastSpawn > 60){
     //         console.log("ERROR0")
@@ -360,6 +393,25 @@ function draw() {
     strokeWeight(1)
     stroke(1)
     text("Room Code: " + currentRoomCode, 20, 20);
+
+    if(wincon != null){
+        if(wincon){
+            fill(0, 0, 0, 255)
+            rect(0, 100, 1400, 300)
+            image(winImg, 400, 0, 500, 500)
+            gameFinished = true;
+            clientplayer.active = false;
+        
+        } else {
+            fill(0, 0, 0, 255)
+            rect(0, 100, 1400, 300)
+            image(loseImg, 400, 0, 500, 500)
+            gameFinished = true;
+            clientplayer.active = false;
+            
+        }
+    }
+    
 
     // win check
     let candidates = [1, 3, 5]

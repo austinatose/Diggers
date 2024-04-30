@@ -120,6 +120,7 @@ io.on("connection", socket => {
         for (let c of client.room.clients)
           c.socket.emit("newMessage", client.name + " joined the room");
         socket.emit("mapUpdate", room.map);
+        socket.emit("startGame", 1);
         socket.emit("setRoomCode", roomCode);
         pass = true;
       }

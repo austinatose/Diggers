@@ -1,6 +1,7 @@
 class PlayerCharacter {
   constructor(x, y, name) {
     this.name = name
+    this.active = true;
     this.sprite = new Sprite(x, y);
     this.sprite.width = 50;
     this.sprite.height = 50;
@@ -27,6 +28,10 @@ class PlayerCharacter {
   }
 
   takeInput(bricksArr) {
+
+    if(!this.active){
+        return;
+    }
     
     if (kb.pressing(" ")) {
       if (!this.isFalling) {
@@ -65,6 +70,7 @@ class PlayerCharacter {
   }
 
   draw() {
+    
     this.sprite.draw();
     push();
     textAlign(CENTER)

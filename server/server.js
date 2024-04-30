@@ -157,7 +157,7 @@ io.on("connection", socket => {
     client.position = data[0];
     // client.heldItem = data[1];
     for (let c of client.room.clients) {
-      c.socket.emit("playerDataUpdate", client.id, [client.position]);
+      c.socket.emit("playerDataUpdate", client.id, [client.position], client.name);
     }
   });
 

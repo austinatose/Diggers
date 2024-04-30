@@ -1,5 +1,6 @@
 class PlayerCharacter {
-  constructor(x, y) {
+  constructor(x, y, name) {
+    this.name = name
     this.sprite = new Sprite(x, y);
     this.sprite.width = 50;
     this.sprite.height = 50;
@@ -65,7 +66,8 @@ class PlayerCharacter {
 }
 
 class OtherCharacter {
-  constructor(x, y) {
+  constructor(x, y, name) {
+    this.name = name
     this.sprite = new Sprite(x, y);
     this.sprite.width = 50;
     this.sprite.height = 50;

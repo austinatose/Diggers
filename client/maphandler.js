@@ -312,6 +312,12 @@ class MapDS {
             } else {
                 return false;
             }
+        } else if (type == 15){
+            if(this.mapArr[x + 0][y + 0] != '0'){ 
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }

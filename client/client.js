@@ -105,7 +105,8 @@ function setup() {
     // createCanvas(1400, 800, WEBGL); // idk why it breaks when WEBGL is on
 
     //texture(p1);
-    clientplayer = new PlayerCharacter(300, 300);
+    clientplayer = new PlayerCharacter(300, 300, "YOU");
+
 }
 
 function draw() {
@@ -174,6 +175,8 @@ function draw() {
         // console.log(playerEntities);
         if (id !== myID) {
             player.sprite.draw();
+            fill(255, 255, 255, 255)
+            text(player.name, player.sprite.position.x, player.sprite.position.y - 100)
             if(frameCount - clientplayer.freezeFrame <= 600){
                 fill(0, 100, 255, 100)
                 rect(player.sprite.position.x - 50, player.sprite.position.y - 80, 100, 160)
@@ -188,6 +191,8 @@ function draw() {
     // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
     clientplayer.sprite.x = constrain(clientplayer.sprite.x, 0, width);
     clientplayer.sprite.draw();
+    fill(255, 255, 255, 255)
+    text(clientplayer.name, clientplayer.sprite.position.x, clientplayer.sprite.position.y - 100)
     if(clientplayer.maxSpeed == 0){
         fill(0, 100, 255, 100)
         rect(clientplayer.sprite.position.x - 50, clientplayer.sprite.position.y - 80, 100, 160)
@@ -210,11 +215,53 @@ function draw() {
             if (
                 ourMap.bricksArr[i] != undefined &&
                 ourMap.bricksArr[i][j] != undefined &&
+                ourMap.mapArr[i][j] != 0 && // only if it is a rock, but if we decide to allow players to replace tunnels, we can just remove this line
+                mouse.x < posx + 100 &&
+                mouse.x > posx - 100 &&
+                mouse.y - mod < posy + 200 / 2 &&
+                mouse.y - mod > posy - 200 / 2 &&
+                mouse.x > 0 &&
+                mouse.x < width &&
+                mouse.y > 0 &&
+                mouse.y < height &&
+                isCardSelected &&
+                selectedCardType == 15
+            ) {
+                let isValid = ourMap.checkValidPlacement(selectedCardType, i, j)
+                push();
+                if(isValid){
+                    stroke("yellow")
+                } else {
+                    stroke("red")
+                }
+                //stroke("yellow");
+                strokeWeight(5);
+                noFill();
+                rect(posx - 100, posy - 100/ 2, 200, 200)
+                pop();
+                if (mouseIsPressed && isValid) {
+                    console.log("changing map")
+                    ourMap.updateMap(i, j, selectedCardType)
+                    playerCards[selectedCardIndex].sprite.remove()
+                    playerCards.splice(selectedCardIndex, 1)
+                    selectedCardType = -1
+                    selectedCardIndex = -1
+                    isCardSelected = false;
+                    socket.emit("sendMapUpdate", ourMap.mapArr)
+
+                    console.log("PLAYER CARDS ARE:", playerCards)
+                }
+            }
+
+            if (
+                selectedCardType != 15 &&
+                ourMap.bricksArr[i] != undefined &&
+                ourMap.bricksArr[i][j] != undefined &&
                 ourMap.mapArr[i][j] == 0 && // only if it is a rock, but if we decide to allow players to replace tunnels, we can just remove this line
                 mouse.x < posx + 100 &&
                 mouse.x > posx - 100 &&
-                mouse.y - mod < posy + ourMap.bricksArr[i][j][0].height / 2 &&
-                mouse.y - mod > posy - ourMap.bricksArr[i][j][0].height / 2 &&
+                mouse.y - mod < posy + 200/ 2 &&
+                mouse.y - mod > posy - 200 / 2 &&
                 mouse.x > 0 &&
                 mouse.x < width &&
                 mouse.y > 0 &&
@@ -292,7 +339,7 @@ function draw() {
     // win check
     let candidates = [1, 3, 5]
     for (let candidate of candidates) {
-        if (ourMap.mapArr[candidate][13] == "999" && clientplayer.sprite.collides(ourMap.bricksArr[candidate][13][0])) {
+        if (ourMap.mapArr != undefined && ourMap.mapArr[candidate] != undefined && ourMap.mapArr[candidate][13] == "999" && clientplayer.sprite.collides(ourMap.bricksArr[candidate][13][0])) {
             socket.emit("playerWin")
         }
     }
@@ -312,14 +359,14 @@ socket.on("newMessage", (message) => { // new announcement to players
 
 });
 
-socket.on("playerDataUpdate", (id, playerData) => {
+socket.on("playerDataUpdate", (id, playerData, name) => {
     //console.log("playerDataUpdate", id, playerData);
     // console.log(playerData[0])
     if (playerEntities.has(id) && id !== myID) {
         playerEntities.get(id).sprite.pos.x = playerData[0].x;
         playerEntities.get(id).sprite.pos.y = playerData[0].y;
     } else if (id !== myID) {
-        let newPlayer = new OtherCharacter(playerData[0].x, playerData[0].y);
+        let newPlayer = new OtherCharacter(playerData[0].x, playerData[0].y, name);
         playerEntities.set(id, newPlayer);
     }
 })

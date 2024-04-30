@@ -49,10 +49,10 @@ class Room {
     }
     let list = [1, 3, 5]
     let real = list[Math.floor((Math.random()*list.length))];
-    this.map[real][14] = "999"
+    this.map[real][13] = "999"
     for (let item in list) {
       if (list[item] !== real) {
-        this.map[list[item]][14] = "99"
+        this.map[list[item]][13] = "99"
       }
     }
     // this.map[2][0] = "1"; // for testing
@@ -130,6 +130,7 @@ io.on("connection", socket => {
 
   socket.on("playerWin", () => {
     if (!client.room) return;
+    console.log("someone won")
     socket.emit("winMessage");
     for (let c of client.room.clients) {
       if (c !== client) {

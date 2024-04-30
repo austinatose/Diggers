@@ -42,8 +42,8 @@ class PlayerCharacter {
       this.sprite.vel.x = this.maxSpeed;
 
     // hax
-    } else if (kb.pressing("s")) {
-      this.sprite.y += 100;
+    // } else if (kb.pressing("s")) {
+    //   this.sprite.y += 100;
     } else {
       this.sprite.vel.x = 0;
     }
@@ -63,6 +63,19 @@ class PlayerCharacter {
     this.groundSensor.position.x = this.sprite.position.x;
     this.groundSensor.position.y = this.sprite.position.y + 30;
   }
+
+  draw() {
+    this.sprite.draw();
+    push();
+    textAlign(CENTER)
+    fill(255, 255, 255, 255)
+    text(this.name, this.sprite.position.x, this.sprite.position.y - 50)
+    if(this.maxSpeed == 0){
+        fill(0, 100, 255, 100)
+        rect(this.sprite.position.x - 50, this.sprite.position.y - 80, 100, 160)
+    }
+    pop();
+  }
 }
 
 class OtherCharacter {
@@ -77,5 +90,18 @@ class OtherCharacter {
     this.maxSpeed = 10;
     // this.avatar_id = Math.floor(Math.random()*3)+1
     this.sprite.img = `assets/player2.png`
+  }
+
+  draw() {
+    this.sprite.draw();
+    push();
+    fill(255, 255, 255, 255)
+    textAlign(CENTER)
+    text(this.name, this.sprite.position.x, this.sprite.position.y - 50)
+    if(frameCount - this.freezeFrame <= 600){
+        fill(0, 100, 255, 100)
+        rect(this.sprite.position.x - 50, this.sprite.position.y - 80, 100, 160)
+    }
+    pop();
   }
 }

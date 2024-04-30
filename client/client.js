@@ -2,6 +2,7 @@ let currentRoomCode = null;
 let playerEntities = new Map();
 let name = "Anonymous";
 let myID = null;
+let wincon = null;
 
 // const socket = io.connect("ws://192.168.1.81:8001");
 const socket = io.connect("ws://localhost:8001");
@@ -82,15 +83,17 @@ socket.on("deleteAirdrop", (id) => {
 })
 
 socket.on("winMessage", () => {
+    console.log("YOU WIN")
     textSize(50);
     text("YOU WIN", 700, 400);
-    noLoop();
+    wincon = true;
 })
 
 socket.on("loseMessage", () => {
+    console.log("YOU LOSE")
     textSize(50);
     text("YOU LOSE", 700, 400);
-    noLoop();
+    wincon = false;
 })
 
 function setup() {
@@ -107,6 +110,11 @@ function setup() {
 }
 
 function draw() {
+
+    if (wincon != null) {
+        noLoop();
+    }
+
     background(51, 36, 1);
 
     // announcements and text
@@ -127,16 +135,12 @@ function draw() {
     //     }
     // }
 
-    
-
     if (clientplayer.sprite.y > height / 2) {
         translate(0, height / 2 - clientplayer.sprite.y);
     }
     if (clientplayer.sprite.y > 4000) {
         clientplayer.sprite.y = 0;
     }
-
-    
 
     if(frameCount - clientplayer.speedFrame > 600){
         clientplayer.maxSpeed = 10;
@@ -170,15 +174,7 @@ function draw() {
     for (let [id, player] of playerEntities) {
         // console.log(playerEntities);
         if (id !== myID) {
-            player.sprite.draw();
-            fill(255, 255, 255, 255)
-            text(player.name, player.sprite.position.x, player.sprite.position.y - 100)
-            if(frameCount - clientplayer.freezeFrame <= 600){
-                fill(0, 100, 255, 100)
-                rect(player.sprite.position.x - 50, player.sprite.position.y - 80, 100, 160)
-               
-            }
-            
+            player.draw();
         }
         
     }
@@ -186,14 +182,7 @@ function draw() {
 
     // ourMap.checkforScrolling(clientplayer.sprite.pos.x, clientplayer.sprite.pos.y);
     clientplayer.sprite.x = constrain(clientplayer.sprite.x, 0, width);
-    clientplayer.sprite.draw();
-    fill(255, 255, 255, 255)
-    text(clientplayer.name, clientplayer.sprite.position.x, clientplayer.sprite.position.y - 100)
-    if(clientplayer.maxSpeed == 0){
-        fill(0, 100, 255, 100)
-        rect(clientplayer.sprite.position.x - 50, clientplayer.sprite.position.y - 80, 100, 160)
-       
-    }
+    clientplayer.draw();
     ourMap.draw();
 
     // check for hovering
@@ -204,7 +193,7 @@ function draw() {
         for (let j = 0; j < 15; j++) {
             let posx = i * 200 + 100
             let posy = 500 + j * 200
-            text("i: " + i + " j: " + j, posx, posy) // debug
+            // text("i: " + i + " j: " + j, posx, posy) // debug
             // if(ourMap.bricksArr[i] != undefined && ourMap.bricksArr[i][j] != undefined && ourMap.bricksArr[i][j][0].mouse.hovering()) { // wait this may not work because translation is funny
             let mod = (clientplayer.sprite.y >= height / 2) ? height / 2 - clientplayer.sprite.y : 0;
 
@@ -338,6 +327,10 @@ function draw() {
         if (ourMap.mapArr != undefined && ourMap.mapArr[candidate] != undefined && ourMap.mapArr[candidate][13] == "999" && clientplayer.sprite.collides(ourMap.bricksArr[candidate][13][0])) {
             socket.emit("playerWin")
         }
+    }
+
+    if (kb.pressing("i"))  { // insta win
+        socket.emit("playerWin")
     }
 
     // update server

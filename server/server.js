@@ -25,6 +25,7 @@ class Room {
     this.id = id;
     this.map = [];
     this.activeAirDrops = [];
+    this.ready = false;
   }
 
   addClient(client) {
@@ -185,6 +186,15 @@ io.on("connection", socket => {
         if (c === client) continue;
         c.socket.emit("freezeGive", client.id)
     } 
+  })
+
+  socket.on("playPressed", (cli) => {
+    if(!client.room) return;
+    if(client.room.ready) return;
+    client.room.ready = true;
+    for(let c of client.room.clients){
+        c.socket.emit("startGame", 1)
+    }
   })
 
   socket.on("airdropCollected", (airdropID) => {

@@ -46,6 +46,7 @@ let isCardSelected = false;
 let selectedCardType = -1;
 let selectedCardIndex = -1;
 let lastClickFrame = 0;
+let roomReady = false;
 
 // function preload(){
 //   // p1 = loadImage('./assets/player1.png')
@@ -98,6 +99,11 @@ socket.on("loseMessage", () => {
     wincon = false;
 })
 
+let titleImg
+function preload(){
+    titleImg = loadImage('assets/title.png')
+}
+
 function setup() {
     new Canvas(1400, 800);
 
@@ -120,9 +126,7 @@ function draw() {
     background(51, 36, 1);
 
     // announcements and text
-    fill(255);
-    textSize(20);
-    text("Room Code: " + currentRoomCode, 20, 20);
+    
     fill(0)
 
     // player updates
@@ -151,6 +155,12 @@ function draw() {
     // airdrop check
     for (let airdrop of airdrops) {
         airdrop.draw();
+        if(!roomReady){
+            socket.emit("airdropCollected", airdrop.id);
+            airdrop.sprite.remove();
+            airdrops.splice(airdrops.indexOf(airdrop), 1)
+        }
+
         if (playerCards.length <= 3 && clientplayer.sprite.overlaps(airdrop.sprite)) {
             console.log("airdrop collected")
             if (airdrop.type == 14) {
@@ -325,6 +335,32 @@ function draw() {
         rect(300, 20, 600 - (frameCount - clientplayer.speedFrame), 50)
     }
 
+    if(!roomReady){
+        rect(0, 0, 1400, 200)
+        image(titleImg, 400, -100, 500, 500)
+
+        fill(125)
+        if(mouseX >= 600 && mouseX <= 700 && mouseY >= 250 && mouseY <= 300){
+            fill(0, 125, 0, 255)
+            if(mouseIsPressed){
+                roomReady = true;
+                socket.emit("playPressed", 1)
+            }
+        } 
+
+        
+        rect(600, 250, 100, 50)
+        fill(255)
+        textSize(32)
+        text("Play!", 615, 285)
+    }
+
+    fill(255);
+    textSize(20);
+    strokeWeight(1)
+    stroke(1)
+    text("Room Code: " + currentRoomCode, 20, 20);
+
     // win check
     let candidates = [1, 3, 5]
     for (let candidate of candidates) {
@@ -364,4 +400,8 @@ socket.on("freezeGive", (id) => {
     clientplayer.maxSpeed = 0;
     clientplayer.speedFrame = frameCount
     clientplayer.freezeFrame = frameCount
+})
+
+socket.on("startGame", (id) => {
+    roomReady = true;
 })

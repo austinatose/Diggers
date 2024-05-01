@@ -92,7 +92,7 @@ class OtherCharacter {
     this.sprite.height = 50;
     this.sprite.position.x = x;
     this.sprite.position.y = y;
-    this.sprite.mass = 5;
+    this.sprite.mass = 0;
     this.maxSpeed = 10;
     // this.avatar_id = Math.floor(Math.random()*3)+1
     this.sprite.img = `assets/player2.png`

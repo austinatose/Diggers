@@ -70,7 +70,7 @@ class PlayerCharacter {
   }
 
   draw() {
-    
+    this.sprite.rotation = 0;
     this.sprite.draw();
     push();
     textAlign(CENTER)
@@ -100,6 +100,7 @@ class OtherCharacter {
   }
 
   draw() {
+    this.sprite.rotation = 0; // stop sprite from rotating
     this.sprite.draw();
     push();
     fill(255, 255, 255, 255)

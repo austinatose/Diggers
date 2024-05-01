@@ -6,7 +6,7 @@ let wincon = null;
 let gameFinished = false;
 
 // const socket = io.connect("ws://localhost:8001");
-const socket = io.connect("wss://diggers.onrender.com");
+const socket = io.connect("wss://diggers-server.onrender.com");
 
 window.onload = () => {
     const join_option_input = prompt('Select: "CREATE" or "JOIN"', "CREATE");

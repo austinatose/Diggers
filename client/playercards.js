@@ -32,6 +32,14 @@ class PlayerCard{
         }
     }
 
+    isTouching(){
+        if(mouseX >= this.sprite.x - this.sprite.width/2 && mouseX <= this.sprite.x + this.sprite.width/2 && mouseY >= this.sprite.y - this.sprite.height/2 && mouseY <= this.sprite.y + this.sprite.height/2){
+            return true
+        } else {
+            return false
+        }
+    }
+
     posUpdate(pos){
        
        this.sprite.x = pos*100 + 900

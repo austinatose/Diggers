@@ -48,6 +48,7 @@ let selectedCardType = -1;
 let selectedCardIndex = -1;
 let lastClickFrame = 0;
 let roomReady = false;
+let cursorOnCard = false;
 
 // function preload(){
 //   // p1 = loadImage('./assets/player1.png')
@@ -333,16 +334,16 @@ function draw() {
                 let isValid = ourMap.checkValidPlacement(selectedCardType, i, j)
                 push();
                 if (isValid) {
-                    stroke("yellow")
+                    stroke(255, 255, 0, abs(Math.sin(frameCount/10))*254)
                 } else {
-                    stroke("red")
+                    stroke(255, 0, 0, abs(Math.sin(frameCount/10))*254)
                 }
                 //stroke("yellow");
                 strokeWeight(5);
                 noFill();
                 rect(posx - 100, posy - 100 / 2, 200, 200)
                 pop();
-                if (mouseIsPressed && isValid) {
+                if (mouseIsPressed && isValid && !cursorOnCard) {
                     console.log("changing map")
                     ourMap.updateMap(i, j, selectedCardType)
                     playerCards[selectedCardIndex].sprite.remove()
@@ -370,16 +371,16 @@ function draw() {
                 mouse.y > 0 &&
                 mouse.y < height &&
                 isCardSelected &&
-                frameCount - lastClickFrame > 20
+                frameCount - lastClickFrame > 20 
             ) {
                 let isValid = false
                 if(selectedCardType <= 13){
                     isValid = ourMap.checkValidPlacement(selectedCardType, i, j)
                     push();
                     if (isValid) {
-                        stroke("yellow")
+                        stroke(255, 255, 0, abs(Math.sin(frameCount/10))*254)
                     } else {
-                        stroke("red")
+                        stroke(255, 0, 0, abs(Math.sin(frameCount/10))*254)
                     }
                     //stroke("yellow");
                     strokeWeight(5);
@@ -389,7 +390,7 @@ function draw() {
                     pop();
                 }
                 
-                if (mouseIsPressed) {
+                if (mouseIsPressed && !cursorOnCard) {
                     if(selectedCardType == 14){
                         console.log("SPEEEEEEEEEEEED")
                         clientplayer.maxSpeed = 20
@@ -414,7 +415,7 @@ function draw() {
                         isCardSelected = false;
                         console.log("PLAYER CARDS ARE:", playerCards)
 
-                    } else if (isValid){
+                    } else if (isValid && selectedCardType > -1){
                         console.log("changing map")
                         ourMap.updateMap(i, j, selectedCardType)
                         playerCards[selectedCardIndex].sprite.remove()
@@ -437,9 +438,14 @@ function draw() {
         translate(0, -(height / 2 - clientplayer.sprite.y));
     }
 
+    cursorOnCard = false
     for (let i = 0; i < playerCards.length; i++) {
         playerCards[i].draw();
         playerCards[i].posUpdate(i);
+        
+        if(playerCards[i].isTouching()){
+            cursorOnCard = true
+        }
 
 
         if (frameCount - lastClickFrame > 10 && playerCards[i].isClicked()) {
@@ -487,9 +493,10 @@ function draw() {
 
         if (i == selectedCardIndex) {
             strokeWeight(5)
-            stroke('yellow')
+            stroke(255, 255, 0, abs(Math.sin(frameCount/10))*254)
+            //stroke('yellow')
             noFill()
-            rect(i * 100 + 900 - 36, 100 - 51, 72, 102)
+            rect(i * 100 + 900 - 33, 100 - 55, 72, 104)
             strokeWeight(0)
             stroke('black')
         }

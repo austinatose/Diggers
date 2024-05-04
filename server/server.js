@@ -141,6 +141,9 @@ io.on("connection", socket => {
         c.socket.emit("loseMessage");
       }
     }
+    rooms.splice(rooms.indexOf(client.room), 1);
+    console.log(rooms);
+    console.log("player won, room deleted")
   })
 
   socket.on("disconnect", () => {

@@ -210,7 +210,7 @@ function setup() {
     // createCanvas(1400, 800, WEBGL); // idk why it breaks when WEBGL is on
 
     //texture(p1);
-    clientplayer = new PlayerCharacter(300, 300, playerName);
+    clientplayer = new PlayerCharacter(300, 230, playerName);
 
 }
 

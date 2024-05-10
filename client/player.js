@@ -11,7 +11,7 @@ class PlayerCharacter {
     this.avatar_id = Math.floor(Math.random()*4)+1
     this.sprite.img = `assets/player${this.avatar_id}.png`
     //this.sprite.img = `assets/player1.png`
-    this.sprite.ani.scale = 0.3
+    this.sprite.img.scale = 0.3
     this.sprite.bounciness = 0;
     this.lastSpawn = -60;
     this.isFalling = false
@@ -96,7 +96,7 @@ class OtherCharacter {
     this.maxSpeed = 10;
     // this.avatar_id = Math.floor(Math.random()*3)+1
     this.sprite.img = `assets/player2.png`
-    this.sprite.ani.scale = 0.3
+    this.sprite.img.scale = 0.3
     this.sprite.collider = 'kinematic'
   }
 
